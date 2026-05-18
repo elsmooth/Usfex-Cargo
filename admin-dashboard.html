@@ -3,39 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USFEX CARGO // ADMINISTRATIVE CONTROL PANEL</title>
+    <title>USFEX CARGO // CUSTODY DESK</title>
     <style>
         :root {
-            --bg-main: #0b0e14;
-            --bg-surface: #141923;
-            --bg-card: #1b2332;
-            --accent-gold: #b7791f;
-            --accent-gold-hover: #dd9a32;
-            --text-primary: #f7fafc;
-            --text-secondary: #a0aec0;
-            --border-color: #2d3748;
-            --status-pending: #ecc94b;
-            --status-approved: #48bb78;
-            --status-rejected: #f56565;
+            --bg-primary: #08090c;
+            --bg-surface: #0f1115;
+            --border-clinical: #1c2026;
+            --text-muted: #7f8c8d;
+            --text-bright: #ffffff;
+            --accent-gold: #d4af37;
+            --accent-green: #00ff66;
+            --accent-alert: #ff3b30;
+            --font-mono: 'Courier New', Courier, monospace;
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: var(--bg-main); color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
-        }
-        header {
-            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
-            display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
-        }
-        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
-        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--accent-gold); }
-        
-        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; }
-        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-        .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;}
 
-        /* Analytics Grid Section */
-        .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-bright);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+        }
+
+        header {
+            border: 1px solid var(--border-clinical);
+            background: var(--bg-surface);
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-mono);
+        }
+
+        h2 {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .log-panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-clinical);
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        th {
+            color: var(--text-muted);
+            text-align: left;
+            padding: 10px;
+            border-bottom: 2px solid var(--border-clinical);
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border-clinical);
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--border-clinical);
+            color: var(--text-bright);
+            padding: 6px 12px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .action-btn.approve {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .action-btn.purge {
+            border-color: var(--accent-alert);
+            color: var(--accent-alert);
+        }
+
+        .action-btn:hover {
+            background: var(--text-bright);
+            color: var(--bg-primary);
+        }
+
+        .badge {
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .badge.pending { background: rgba(212,175,55,0.15); color: var(--accent-gold); }
+        .badge.approved { background: rgba(0,255,102,0.15); color: var(--accent-green); }
+        .badge.locked { background: rgba(255,59,48,0.15); color: var(--accent-alert); }
+
+        footer {
+            margin-top: 20px;
+            border: 1px solid var(--border-clinical);
+            background: var(--bg-surface);
+            padding: 15px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <div style="font-weight: bold; font-size: 16px;">USFEX CARGO // CUSTODY DESK</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">EXECUTIVE LEVEL SIGNATURE OVERRIDE</div>
+        </div>
+        <div>SECURE ACCESS: LEVEL 4 ADMIN</div>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="log-panel">
+            <h2>INGRESS VALIDATION QUEUE</h2>
+            <table id="adminLedgerTable">
+                <thead>
+                    <tr>
+                        <th>TRACKING ID</th>
+                        <th>ASSET DESCRIPTION</th>
+                        <th>METRIC MASS</th>
+                        <th>GROSS VALUE</th>
+                        <th>STATUS</th>
+                        <th style="text-align: right;">OPERATIONAL OVERRIDES</th>
+                    </tr>
+                </thead>
+                <tbody id="adminLedgerBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <div>CONSOLE V5.0 SECURED</div>
+        <a href="index.html" style="color: var(--accent-gold); text-decoration: none;">[ RETURN TO GATEWAY ]</a>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            syncAdminLedgerDisplay();
+        });
+
+        function syncAdminLedgerDisplay() {
+            const body = document.getElementById('adminLedgerBody');
+            if (!body) return;
+
+            const dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
+            body.innerHTML = '';
+
+            if (dynamicStore.length === 0) {
+                body.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 30px;">[ LOG_ALERT ] NO DYNAMIC CONSIGNMENTS REGISTERED IN STORAGE BUFFER.</td></tr>`;
+                return;
+            }
+
+            dynamicStore.forEach(asset => {
+                let statusBadge = `<span class="badge pending">PENDING_AUTH</span>`;
+                if (asset.status === 'approved') statusBadge = `<span class="badge approved">ACTIVE_MARKET</span>`;
+                if (asset.status === 'escrow_locked') statusBadge = `<span class="badge locked">ESCROW_SEALED</span>`;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td style="color: var(--accent-gold); font-weight: bold;">${asset.tracking}</td>
+                    <td style="color: #fff; font-weight: 500;">${asset.title}</td>
+                    <td>${asset.weight}</td>
+                    <td style="font-weight: bold;">$${parseFloat(asset.gross).toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+                    <td>${statusBadge}</td>
+                    <td style="text-align: right;">
+                        ${asset.status === 'pending' ? `<button class="action-btn approve" onclick="commitAssetApproval(${asset.id})">[AUTHORIZE]</button>` : ''}
+                        <button class="action-btn purge" onclick="purgeAssetRecord(${asset.id})">[PURGE]</button>
+                    </td>
+                `;
+                body.appendChild(row);
+            });
+        }
+
+        function commitAssetApproval(id) {
+            let dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
+            dynamicStore = dynamicStore.map(asset => {
+                if (asset.id === id) {
+                    asset.status = 'approved';
+                }
+                return asset;
+            });
+            localStorage.setItem('usfex_all_assets', JSON.stringify(dynamicStore));
+            syncAdminLedgerDisplay();
+        }
+
+        function purgeAssetRecord(id) {
+            let dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
+            dynamicStore = dynamicStore.filter(asset => asset.id !== id);
+            localStorage.setItem('usfex_all_assets', JSON.stringify(dynamicStore));
+            
+            // Also drop from active shopping arrays if purged during transaction phases
+            let activeCart = JSON.parse(localStorage.getItem('usfex_active_cart')) || [];
+            activeCart = activeCart.filter(item => item.id !== `DYNAMIC-${id}`);
+            localStorage.setItem('usfex_active_cart', JSON.stringify(activeCart));
+
+            syncAdminLedgerDisplay();
+        }
+    </script>
+</body>
+</html>
