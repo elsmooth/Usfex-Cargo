@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USFEX CARGO // ASSET DETAIL & ACQUISITION</title>
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-surface: #141923;
+            --bg-card: #1b2332;
+            --accent-gold: #b7791f;
+            --accent-gold-hover: #dd9a32;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --border-color: #2d3748;
+            --success-green: #38a169;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main); color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
+            position: relative; overflow-x: hidden;
+        }
+        header {
+            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
+        }
+        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; margin-left: 16px; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-gold); }
+        
+        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        @media (max-width: 768px) { main { grid-template-columns: 1fr; gap: 24px; } }
+
+        /* Left Column: Premium Product Display */
+        .product-gallery { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 350px; position: relative; }
+        .asset-mock-graphic { font-family: monospace; font-size: 70px; color: rgba(183, 121, 31, 0.15); user-select: none; margin-bottom: 20px; }
+        .security-badge { position: absolute; top: 16px; left: 16px; font-family: monospace; font-size: 10px; background: rgba(183, 121, 31, 0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+
+        /* Right Column: Product Specs & Ordering */
+        .product-info { display: flex; flex-direction: column; justify-content: space-between; }
+        .sku-tag { font-family: monospace; font-size: 12px; color: var(--accent-gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; }
+        .price-tag { font-size: 28px; font-family: monospace; font-weight: 800; margin-bottom: 24px; color: var(--text-primary); }
+        .spec-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; font-size: 14px; }
+        .spec-table tr { border-bottom: 1px solid rgba(45, 55, 72, 0.4); }
+        .spec-table td { padding: 12px 0; }
+        .spec-label { color: var(--text-secondary); font-family: monospace; text-transform: uppercase; font-size: 12px; }
+        .spec-value { text-align: right; font-weight: 600; }
+
+        .btn-add-cart { width: 100%; background-color: var(--accent-gold); border: 1px solid var(--accent-gold); color: white; padding: 16px; border-radius: 4px; font-weight: 600; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; }
+        .btn-add-cart:hover { background-color: var(--accent-gold-hover); }
+
+        /* Slide-out Shopping Cart UI Container */
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background-color: var(--bg-surface); border-left: 1px solid var(--border-color); box-shadow: -10px 0 30px rgba(0,0,0,0.5); padding: 32px; display: flex; flex-direction: column; justify-content: space-between; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; }
+        .cart-title { font-size: 18px; font-weight: bold; font-family: monospace; }
+        .close-cart { background: none; border: none; color: var(--text-secondary); font-size: 20px; cursor: pointer; }
+        .close-cart:hover { color: white; }
+        
+        .cart-items-list { flex-grow: 1; padding: 24px 0; display: flex; flex-direction: column; gap: 16px; }
+        .cart-item { background: var(--bg-card); border: 1px solid var(--border-color); padding: 16px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .checkout-box { border-top: 1px dashed var(--border-color); padding-top: 24px; }
+        .summary-row { display: flex; justify-content: space-between; font-family: monospace; margin-bottom: 12px; font-size: 14px; }
+        .total-row { display: flex; justify-content: space-between; font-family: monospace; font-size: 18px; font-weight: bold; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color); color: var(--accent-gold); }
+        
+        .btn-checkout { width: 100%; background-color: var(--success-green); border: 1px solid var(--success-green); color: white; padding: 14px; border-radius: 4px; font-weight: 600; font-size: 13px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 20px; display: block; text-align: center; text-decoration: none; }
+        .btn-checkout:hover { background-color: #2f855a; }
+
+        footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <a href="index.html" class="brand-logo">USFEX CARGO</a>
+        </div>
+        <div class="nav-links">
+            <a href="marketplace.html">← Back to Marketplace</a>
+            <a href="#" onclick="toggleCart(true)">View Cart (<span id="cartCountNav">0</span>)</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="product-gallery">
+            <span class="security-badge">Tier-Delta Insured</span>
+            <div class="asset-mock-graphic">[ AU ]</div>
+            <p style="color: var(--text-secondary); font-family: monospace; font-size: 12px;">SECURE STORAGE BLOCK VISUAL REF</p>
+        </div>
+
+        <div class="product-info">
+            <div>
+                <div class="sku-tag">SKU // USFEX-AU-QS01</div>
+                <h1>Unrefined Gold Grain Assay</h1>
+                <div class="price-tag">$45,000.00</div>
+                
+                <table class="spec-table">
+                    <tr>
+                        <td class="spec-label">Origin Depository</td>
+                        <td class="spec-value">Zurich Vault Sector 4</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-label">Net Mass Weight</td>
+                        <td class="spec-value">1.20 kg</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-label">Condition Grade</td>
+                        <td class="spec-value">Raw Assayed / Unrefined</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-label">Custory Status</td>
+                        <td class="spec-value" style="color: var(--success-green);">Available for Acquisition</td>
+                    </tr>
+                </table>
+            </div>
+
+            <button class="btn-add-cart" onclick="addItemToCart()">Add Asset to Allocation Cart</button>
+        </div>
+    </main>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <div class="cart-title">Allocation Cart</div>
+            <button class="close-cart" onclick="toggleCart(false)">✕</button>
+        </div>
+
+        <div class="cart-items-list" id="cartItemsContainer">
+            <p style="color: var(--text-secondary); text-align: center; font-family: monospace; margin: auto;" id="emptyCartMsg">Cart allocation manifest empty.</p>
+        </div>
+
+        <div class="checkout-box">
+            <div class="summary-row">
+                <span>Gross Asset Subtotal:</span>
+                <span id="cartSubtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Logistics Transit Handling:</span>
+                <span id="cartShipping">$0.00</span>
+            </div>
+            <div class="total-row">
+                <span>Total Escrow Value:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+
+            <a href="official_customer_agreement.html" class="btn-checkout">Initialize Legal Acquisition Flow</a>
+        </div>
+    </div>
+
+    <footer>
+        <div>PRODUCT INTEGRATION CONSOLE // V5.0</div>
+        <div>DATA PATHS VERIFIED SECURE</div>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function toggleCart(open) {
+            const sidebar = document.getElementById('cartSidebar');
+            if (open) sidebar.classList.add('open');
+            else sidebar.classList.remove('open');
+        }
+
+        function addItemToCart() {
+            // Check if item is already added to prevent duplicates for unique assets
+            if (cart.length === 0) {
+                cart.push({
+                    id: 'USFEX-AU-QS01',
+                    title: 'Unrefined Gold Grain Assay',
+                    price: 45000.00
+                });
+                updateCartUI();
+            }
+            toggleCart(true);
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cartItemsContainer');
+            const countNav = document.getElementById('cartCountNav');
+            const emptyMsg = document.getElementById('emptyCartMsg');
+            
+            countNav.innerText = cart.length;
+
+            if (cart.length === 0) {
+                emptyMsg.style.display = 'block';
+                container.innerHTML = '';
+                document.getElementById('cartSubtotal').innerText = '$0.00';
+                document.getElementById('cartShipping').innerText = '$0.00';
+                document.getElementById('cartTotal').innerText = '$0.00';
+                return;
+            }
+
+            emptyMsg.style.display = 'none';
+            container.innerHTML = `
+                <div class="cart-item">
+                    <div>
+                        <div style="font-size: 14px; font-weight: bold;">${cart[0].title}</div>
+                        <div style="font-family: monospace; font-size: 11px; color: var(--accent-gold); margin-top:4px;">${cart[0].id}</div>
+                    </div>
+                    <div style="font-family: monospace; font-weight: bold;">$45,000.00</div>
+                </div>
+            `;
+
+            // Update checkout figures
+            const subtotal = 45000.00;
+            const logistics = 1500.00; // Standard premium tactical surcharge
+            const total = subtotal + logistics;
+
+            document.getElementById('cartSubtotal').innerText = '$' + subtotal.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('cartShipping').innerText = '$' + logistics.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('cartTotal').innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
+        }
+    </script>
+</body>
+</html>
