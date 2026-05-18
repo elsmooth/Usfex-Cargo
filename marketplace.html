@@ -218,12 +218,45 @@
         <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
     </footer>
 
-      <script>
+          <script>
         // Static Inventory Vector Base Configuration
         const baseStaticInventory = [
-            { id: 'STATIC-1', tracking: 'USFEX-AU-BL', title: 'Mint-Certified Gold Bullion', desc: 'Secured vault holding comprising fine investment-grade physical casting bars with full custody trail markers intact.', weight: '2.50 kg', security: 'Tier-Delta', storage: 'SYS-L4-VAULT', gross: 165000, link: 'official_customer_agreement.html', categoryType: 'AU' },
-            { id: 'STATIC-2', tracking: 'USFEX-CUR-100', title: 'Vault-Strapped Currency Bundles', desc: 'Secured physical reserve currency packages held under absolute escrow clearance processing paths.', weight: '1.40 kg', security: 'Tier-Delta', storage: 'SYS-L4-VAULT', gross: 65000, link: 'official_customer_agreement.html', categoryType: 'CUR' },
-            { id: 'STATIC-3', tracking: 'USFEX-JW-SEC', title: 'Fine Luxury Timepieces', desc: 'High-grade authenticated chronological inventory sets safely allocated within dynamic asset tracking containers.', weight: '1.00 kg', security: 'Tier-Delta', storage: 'SYS-L4-VAULT', gross: 265000, link: 'product-detail.html', categoryType: 'JW' }
+            { 
+                id: 'STATIC-1', 
+                tracking: 'USFEX-AU-BL', 
+                title: 'Mint-Certified Gold Bullion', 
+                desc: 'Secured vault holding comprising fine investment-grade physical casting bars with full custody trail markers intact.', 
+                weight: '2.50 kg', 
+                security: 'Tier-Delta', 
+                storage: 'SYS-L4-VAULT', 
+                gross: 165000, 
+                link: 'official_customer_agreement.html', 
+                categoryType: 'AU' 
+            },
+            { 
+                id: 'STATIC-2', 
+                tracking: 'USFEX-CUR-100', 
+                title: 'Vault-Strapped Currency Bundles', 
+                desc: 'Secured physical reserve currency packages held under absolute escrow clearance processing paths.', 
+                weight: '1.40 kg', 
+                security: 'Tier-Delta', 
+                storage: 'SYS-L4-VAULT', 
+                gross: 65000, 
+                link: 'official_customer_agreement.html', 
+                categoryType: 'CUR' 
+            },
+            { 
+                id: 'STATIC-3', 
+                tracking: 'USFEX-JW-SEC', 
+                title: 'Fine Luxury Timepieces', 
+                desc: 'High-grade authenticated chronological inventory sets safely allocated within dynamic asset tracking containers.', 
+                weight: '1.00 kg', 
+                security: 'Tier-Delta', 
+                storage: 'SYS-L4-VAULT', 
+                gross: 265000, 
+                link: 'product-detail.html', 
+                categoryType: 'JW' 
+            }
         ];
 
         let activeFilterCategory = 'all';
@@ -234,7 +267,10 @@
             renderMarketplaceView();
 
             // Attaching event runner context to Search Input Matrix
-            document.getElementById('marketplaceSearch').addEventListener('input', renderMarketplaceView);
+            const searchInput = document.getElementById('marketplaceSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', renderMarketplaceView);
+            }
         });
 
         function syncRegistryDatabase() {
@@ -246,18 +282,18 @@
                 .filter(asset => asset.status === 'approved')
                 .map(asset => {
                     let inferredCategory = 'AU';
-                    if(asset.tracking.includes('-JW-')) inferredCategory = 'JW';
-                    if(asset.tracking.includes('-CUR-')) inferredCategory = 'CUR';
+                    if (asset.tracking && asset.tracking.includes('-JW-')) inferredCategory = 'JW';
+                    if (asset.tracking && asset.tracking.includes('-CUR-')) inferredCategory = 'CUR';
 
                     return {
                         id: `DYNAMIC-${asset.id}`,
-                        tracking: asset.tracking,
-                        title: asset.title,
-                        desc: `Platform verified asset manifest containing raw unrefined allocations. Current status pipeline updated live via administrative validation routines. Weight context recorded at ${asset.weight}.`,
-                        weight: asset.weight,
+                        tracking: asset.tracking || 'USFEX-GEN-REG',
+                        title: asset.title || 'Dynamically Verified Asset Manifest',
+                        desc: `Platform verified asset manifest containing raw unrefined allocations. Current status pipeline updated live via administrative validation routines. Weight context recorded at ${asset.weight || 'N/A'}.`,
+                        weight: asset.weight || 'Pending Verification',
                         security: 'Tier-Delta',
                         storage: 'SYS-L4-VAULT',
-                        gross: asset.gross,
+                        gross: parseFloat(asset.gross) || 0,
                         link: 'product-detail.html',
                         categoryType: inferredCategory
                     };
@@ -272,14 +308,19 @@
             
             // Toggle focus tags within target visual components
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            actionElement.classList.add('active');
+            if (actionElement) {
+                actionElement.classList.add('active');
+            }
             
             renderMarketplaceView();
         }
 
         function renderMarketplaceView() {
             const container = document.getElementById('listingsGridContainer');
-            const searchString = document.getElementById('marketplaceSearch').value.toLowerCase().trim();
+            if (!container) return;
+
+            const searchInput = document.getElementById('marketplaceSearch');
+            const searchString = searchInput ? searchInput.value.toLowerCase().trim() : '';
             container.innerHTML = '';
 
             const filteredDataset = globalRegistryDataset.filter(item => {
