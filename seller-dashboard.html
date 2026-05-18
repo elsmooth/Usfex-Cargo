@@ -1,184 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USFEX CARGO // DEPOSITORY INGRESS</title>
-    <style>
-        :root {
-            --bg-primary: #08090c;
-            --bg-surface: #0f1115;
-            --border-clinical: #1c2026;
-            --text-muted: #7f8c8d;
-            --text-bright: #ffffff;
-            --accent-gold: #d4af37;
-            --accent-green: #00ff66;
-            --font-mono: 'Courier New', Courier, monospace;
-        }
+// REPLACES EXISTING LOCALSTORAGE INGESTION ENGINE IN SELLER-DASHBOARD.HTML
+async function executeAssetVaultIngress(event) {
+    event.preventDefault();
 
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-bright);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            padding: 20px;
-        }
+    const payload = {
+        title: document.getElementById('assetTitle').value,
+        weight: document.getElementById('assetWeight').value,
+        gross: document.getElementById('assetGross').value
+    };
 
-        header {
-            border: 1px solid var(--border-clinical);
-            background: var(--bg-surface);
-            padding: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-mono);
-        }
+    try {
+        // Dispatching network request payload to our secure API layer
+        const response = await fetch('http://localhost:5000/api/products/ingress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Passes the user's secure token back to the verification gate
+                'Authorization': `Bearer ${localStorage.getItem('usfex_auth_token')}`
+            },
+            body: JSON.stringify(payload)
+        });
 
-        .form-panel {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-clinical);
-            padding: 30px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        const data = await response.json();
 
-        h2 {
-            font-family: var(--font-mono);
-            font-size: 16px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            border-bottom: 1px dashed var(--border-clinical);
-            padding-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            background: #050608;
-            border: 1px solid var(--border-clinical);
-            color: #fff;
-            padding: 12px;
-            font-family: var(--font-mono);
-            font-size: 13px;
-        }
-
-        input:focus {
-            border-color: var(--accent-gold);
-            outline: none;
-        }
-
-        .submit-btn {
-            display: block;
-            width: 100%;
-            background: transparent;
-            border: 1px solid var(--accent-gold);
-            color: var(--accent-gold);
-            padding: 14px;
-            font-family: var(--font-mono);
-            font-weight: bold;
-            cursor: pointer;
-            letter-spacing: 1px;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background: var(--accent-gold);
-            color: var(--bg-primary);
-        }
-
-        footer {
-            margin-top: 30px;
-            border: 1px solid var(--border-clinical);
-            background: var(--bg-surface);
-            padding: 15px;
-            font-family: var(--font-mono);
-            font-size: 11px;
-            color: var(--text-muted);
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div>
-            <div style="font-weight: bold; font-size: 16px;">USFEX CARGO // DEPOSITORY INGRESS</div>
-            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">DIGITIZE PHYSICAL MANIFEST RECORDS</div>
-        </div>
-        <div>PORT: VAULT-INGRESS-01</div>
-    </header>
-
-    <main class="form-panel">
-        <h2>LOT INGESTION SPECIFICATION SHEET</h2>
-        <form id="ingressForm" onsubmit="executeAssetVaultIngress(event)">
-            
-            <div class="form-group">
-                <label for="assetTitle">Description of Lots / Asset Name</label>
-                <input type="text" id="assetTitle" required placeholder="e.g., Unrefined Gold Grain Assay">
-            </div>
-
-            <div class="form-group">
-                <label for="assetWeight">Verified Metric Mass (with units)</label>
-                <input type="text" id="assetWeight" required placeholder="e.g., 4.50 kg">
-            </div>
-
-            <div class="form-group">
-                <label for="assetGross">Gross Valuation (USD)</label>
-                <input type="number" id="assetGross" step="0.01" required placeholder="e.g., 45000.00">
-            </div>
-
-            <button type="submit" class="submit-btn">DISPATCH LOGISTICS REGISTRY PAYLOAD</button>
-        </form>
-    </main>
-
-    <footer>
-        <div>INGRESS NODE ONLINE</div>
-        <a href="index.html" style="color: var(--accent-gold); text-decoration: none;">[ RETURN TO GATEWAY ]</a>
-    </footer>
-
-    <script>
-        function executeAssetVaultIngress(event) {
-            event.preventDefault();
-
-            const title = document.getElementById('assetTitle').value;
-            const weight = document.getElementById('assetWeight').value;
-            const gross = document.getElementById('assetGross').value;
-
-            const dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
-            
-            // Explicit tracking index counter incrementation
-            const nextId = dynamicStore.length > 0 ? Math.max(...dynamicStore.map(a => a.id)) + 1 : 101;
-            const generatedSku = `USFEX-AU-QS${nextId}`;
-
-            const newAssetRecord = {
-                id: nextId,
-                tracking: generatedSku,
-                title: title,
-                weight: weight,
-                gross: parseFloat(gross),
-                status: 'pending' // Enforces mandatory admin approval loop verification
-            };
-
-            dynamicStore.push(newAssetRecord);
-            localStorage.setItem('usfex_all_assets', JSON.stringify(dynamicStore));
-
-            alert(`ASSET MANIFEST DISPATCHED // LOG_SKU: ${generatedSku}\nSTATUS: AWAITING CLEARANCE SECTOR APPROVAL.`);
+        if (response.ok) {
+            alert(`ASSET MANIFEST DEPOSITED IN LIVE DB // SKU: ${data.asset.sku}\nSTATUS: AWAITING CLEARANCE.`);
             document.getElementById('ingressForm').reset();
             window.location.href = 'index.html';
+        } else {
+            alert(`[INGRESS_REJECTION] Error: ${data.error}`);
         }
-    </script>
-</body>
-</html>
+    } catch (err) {
+        console.error("API Communication Failure:", err);
+        alert("[CRITICAL_NETWORK_FAULT] Could not establish connection to operations server.");
+    }
+}
