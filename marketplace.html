@@ -1,529 +1,89 @@
-<a href="marketplace.html" class="action-button" style="display:none;">Open Asset Marketplace</a>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USFEX CARGO // SECURE MARKETPLACE</title>
+    <title>USFEX CARGO // ASSET EXCHANGE</title>
     <style>
         :root {
-            --bg-main: #0b0e14;
-            --bg-surface: #141923;
-            --bg-card: #1b2332;
-            --accent-gold: #b7791f;
-            --accent-gold-hover: #dd9a32;
-            --text-primary: #f7fafc;
-            --text-secondary: #a0aec0;
-            --border-color: #2d3748;
-            --status-secure: #48bb78;
+            --bg-primary: #08090c;
+            --bg-surface: #0f1115;
+            --border-clinical: #1c2026;
+            --text-muted: #7f8c8d;
+            --text-bright: #ffffff;
+            --accent-gold: #d4af37;
+            --font-mono: 'Courier New', Courier, monospace;
         }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            background-color: var(--bg-main); color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
+            background-color: var(--bg-primary);
+            color: var(--text-bright);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
         }
         header {
-            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
-            display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
+            border: 1px solid var(--border-clinical);
+            background: var(--bg-surface);
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: var(--font-mono);
         }
-        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
-        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--accent-gold); }
-        
-        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; w-index: 1; }
-        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-        .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;}
-
-        /* Filter Controls Interface Block */
-        .filter-wrapper { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; background-color: var(--bg-surface); padding: 16px; border: 1px solid var(--border-color); border-radius: 6px; }
-        .search-input { flex: 1; min-width: 280px; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 16px; color: var(--text-primary); font-family: monospace; font-size: 13px; outline: none; transition: border-color 0.2s; }
-        .search-input:focus { border-color: var(--accent-gold); }
-        .filter-btn-group { display: flex; gap: 8px; }
-        .filter-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 10px 16px; border-radius: 4px; font-family: monospace; font-size: 11px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
-        .filter-btn:hover, .filter-btn.active { border-color: var(--accent-gold); color: var(--text-primary); background-color: rgba(183, 121, 31, 0.1); }
-
-        /* Inventory Layout Grid */
-        .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; width: 100%; }
-        .cargo-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; }
-        
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
-        .sku-tag { font-family: monospace; font-size: 12px; color: var(--accent-gold); font-weight: bold; }
-        .status-badge { font-family: monospace; font-size: 10px; color: var(--status-secure); background: rgba(72, 187, 120, 0.1); border: 1px solid rgba(72, 187, 120, 0.2); padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-        
-        .cargo-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
-        .cargo-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px; min-height: 40px; }
-        
-        /* Technical Metrics Table */
-        .metrics-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-family: monospace; font-size: 12px; }
-        .metrics-table td { padding: 6px 0; border-bottom: 1px solid rgba(45, 55, 72, 0.4); }
-        .metrics-label { color: var(--text-secondary); }
-        .metrics-value { text-align: right; color: var(--text-primary); font-weight: bold; }
-
-        .card-footer { display: flex; justify-content: space-between; align-items: center; }
-        .valuation-box { display: flex; flex-direction: column; }
-        .val-lbl { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-        .val-amt { font-size: 18px; font-weight: bold; color: var(--text-primary); font-family: monospace; }
-        
-        .secure-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px 16px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; transition: all 0.2s; text-align: center; }
-        .cargo-card:hover { border-color: #4a5568; transform: translateY(-2px); }
-        .cargo-card:hover .secure-btn { background-color: var(--accent-gold); border-color: var(--accent-gold); color: white; }
-
-        .empty-results { grid-column: 1 / -1; background-color: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 6px; padding: 40px; text-align: center; font-family: monospace; color: var(--text-secondary); font-size: 13px; }
-
-        footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
+        .exchange-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div>
-            <a href="index.html" class="brand-logo">USFEX CARGO</a>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">← Return to Dashboard</a>
-        </div>
+        <div style="font-weight: bold; font-size: 16px;">USFEX CARGO // CENTRAL REGISTRY</div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">LIVE EXCHANGE ASSET POOL</div>
     </header>
 
-    <main>
-        <h1>Verified Asset Marketplace</h1>
-        <div class="subtitle">Section 3.A // Real-Time High-Value Inventory Registry</div>
+    <main class="exchange-grid" id="marketplaceGridContainer">
+        </main>
 
-        <div class="filter-wrapper">
-            <input type="text" id="marketplaceSearch" class="search-input" placeholder="RUN INDEX SEARCH... (e.g. Gold, Currency, SKU Code)">
-            <div class="filter-btn-group">
-                <button class="filter-btn active" onclick="filterCategory('all', this)">All Vectors</button>
-                <button class="filter-btn" onclick="filterCategory('AU', this)">Precious Metals</button>
-                <button class="filter-btn" onclick="filterCategory('JW', this)">Luxury Goods</button>
-                <button class="filter-btn" onclick="filterCategory('CUR', this)">Currency Reserves</button>
-            </div>
-        </div>
-
-        <div class="listings-grid" id="listingsGridContainer">
-            </div>
-    </main>
-
-    <footer>
-        <div>MARKETPLACE COMPLIANCE INTERFACE // v1.0</div>
-        <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
-    </footer><a href="marketplace.html" class="action-button" style="display:none;">Open Asset Marketplace</a>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USFEX CARGO // SECURE MARKETPLACE</title>
-    <style>
-        :root {
-            --bg-main: #0b0e14;
-            --bg-surface: #141923;
-            --bg-card: #1b2332;
-            --accent-gold: #b7791f;
-            --accent-gold-hover: #dd9a32;
-            --text-primary: #f7fafc;
-            --text-secondary: #a0aec0;
-            --border-color: #2d3748;
-            --status-secure: #48bb78;
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            background-color: var(--bg-main); color: var(--text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
-        }
-        header {
-            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
-            display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
-        }
-        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
-        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--accent-gold); }
-        
-        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; w-index: 1; }
-        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
-        .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;}
-
-        /* Filter Controls Interface Block */
-        .filter-wrapper { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; background-color: var(--bg-surface); padding: 16px; border: 1px solid var(--border-color); border-radius: 6px; }
-        .search-input { flex: 1; min-width: 280px; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 16px; color: var(--text-primary); font-family: monospace; font-size: 13px; outline: none; transition: border-color 0.2s; }
-        .search-input:focus { border-color: var(--accent-gold); }
-        .filter-btn-group { display: flex; gap: 8px; }
-        .filter-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 10px 16px; border-radius: 4px; font-family: monospace; font-size: 11px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
-        .filter-btn:hover, .filter-btn.active { border-color: var(--accent-gold); color: var(--text-primary); background-color: rgba(183, 121, 31, 0.1); }
-
-        /* Inventory Layout Grid */
-        .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; width: 100%; }
-        .cargo-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; }
-        
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
-        .sku-tag { font-family: monospace; font-size: 12px; color: var(--accent-gold); font-weight: bold; }
-        .status-badge { font-family: monospace; font-size: 10px; color: var(--status-secure); background: rgba(72, 187, 120, 0.1); border: 1px solid rgba(72, 187, 120, 0.2); padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
-        
-        .cargo-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
-        .cargo-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px; min-height: 40px; }
-        
-        /* Technical Metrics Table */
-        .metrics-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-family: monospace; font-size: 12px; }
-        .metrics-table td { padding: 6px 0; border-bottom: 1px solid rgba(45, 55, 72, 0.4); }
-        .metrics-label { color: var(--text-secondary); }
-        .metrics-value { text-align: right; color: var(--text-primary); font-weight: bold; }
-
-        .card-footer { display: flex; justify-content: space-between; align-items: center; }
-        .valuation-box { display: flex; flex-direction: column; }
-        .val-lbl { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
-        .val-amt { font-size: 18px; font-weight: bold; color: var(--text-primary); font-family: monospace; }
-        
-        .secure-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px 16px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; transition: all 0.2s; text-align: center; }
-        .cargo-card:hover { border-color: #4a5568; transform: translateY(-2px); }
-        .cargo-card:hover .secure-btn { background-color: var(--accent-gold); border-color: var(--accent-gold); color: white; }
-
-        .empty-results { grid-column: 1 / -1; background-color: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 6px; padding: 40px; text-align: center; font-family: monospace; color: var(--text-secondary); font-size: 13px; }
-
-        footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div>
-            <a href="index.html" class="brand-logo">USFEX CARGO</a>
-        </div>
-        <div class="nav-links">
-            <a href="index.html">← Return to Dashboard</a>
-        </div>
-    </header>
-
-    <main>
-        <h1>Verified Asset Marketplace</h1>
-        <div class="subtitle">Section 3.A // Real-Time High-Value Inventory Registry</div>
-
-        <div class="filter-wrapper">
-            <input type="text" id="marketplaceSearch" class="search-input" placeholder="RUN INDEX SEARCH... (e.g. Gold, Currency, SKU Code)">
-            <div class="filter-btn-group">
-                <button class="filter-btn active" onclick="filterCategory('all', this)">All Vectors</button>
-                <button class="filter-btn" onclick="filterCategory('AU', this)">Precious Metals</button>
-                <button class="filter-btn" onclick="filterCategory('JW', this)">Luxury Goods</button>
-                <button class="filter-btn" onclick="filterCategory('CUR', this)">Currency Reserves</button>
-            </div>
-        </div>
-
-        <div class="listings-grid" id="listingsGridContainer">
-            </div>
-    </main>
-
-    <footer>
-        <div>MARKETPLACE COMPLIANCE INTERFACE // v1.0</div>
-        <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
-    </footer>     <script>
-        // Static Inventory Vector Base Configuration
-        const baseStaticInventory = [
-            { 
-                id: 'STATIC-1', 
-                tracking: 'USFEX-AU-BL', 
-                title: 'Mint-Certified Gold Bullion', 
-                desc: 'Secured vault holding comprising fine investment-grade physical casting bars with full custody trail markers intact.', 
-                weight: '2.50 kg', 
-                security: 'Tier-Delta', 
-                storage: 'SYS-L4-VAULT', 
-                gross: 165000, 
-                link: 'official_customer_agreement.html', 
-                categoryType: 'AU' 
-            },
-            { 
-                id: 'STATIC-2', 
-                tracking: 'USFEX-CUR-100', 
-                title: 'Vault-Strapped Currency Bundles', 
-                desc: 'Secured physical reserve currency packages held under absolute escrow clearance processing paths.', 
-                weight: '1.40 kg', 
-                security: 'Tier-Delta', 
-                storage: 'SYS-L4-VAULT', 
-                gross: 65000, 
-                link: 'official_customer_agreement.html', 
-                categoryType: 'CUR' 
-            },
-            { 
-                id: 'STATIC-3', 
-                tracking: 'USFEX-JW-SEC', 
-                title: 'Fine Luxury Timepieces', 
-                desc: 'High-grade authenticated chronological inventory sets safely allocated within dynamic asset tracking containers.', 
-                weight: '1.00 kg', 
-                security: 'Tier-Delta', 
-                storage: 'SYS-L4-VAULT', 
-                gross: 265000, 
-                link: 'product-detail.html', 
-                categoryType: 'JW' 
-            }
-        ];
-
-        let activeFilterCategory = 'all';
-        let globalRegistryDataset = [];
-
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
-            syncRegistryDatabase();
-            renderMarketplaceView();
-
-            // Attaching event runner context to Search Input Matrix
-            const searchInput = document.getElementById('marketplaceSearch');
-            if (searchInput) {
-                searchInput.addEventListener('input', renderMarketplaceView);
-            }
+            loadLiveExchangeRegistry();
         });
 
-        function syncRegistryDatabase() {
-            // Unify baseline arrays with dynamically stored entries from Admin Interface
-            const dynamicApprovals = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
-            
-            // Map dynamic layout schemes into correct UI metadata maps
-            const formattedApprovals = dynamicApprovals
-                .filter(asset => asset.status === 'approved')
-                .map(asset => {
-                    let inferredCategory = 'AU';
-                    if (asset.tracking && asset.tracking.includes('-JW-')) inferredCategory = 'JW';
-                    if (asset.tracking && asset.tracking.includes('-CUR-')) inferredCategory = 'CUR';
-
-                    return {
-                        id: `DYNAMIC-${asset.id}`,
-                        tracking: asset.tracking || 'USFEX-GEN-REG',
-                        title: asset.title || 'Dynamically Verified Asset Manifest',
-                        desc: `Platform verified asset manifest containing raw unrefined allocations. Current status pipeline updated live via administrative validation routines. Weight context recorded at ${asset.weight || 'N/A'}.`,
-                        weight: asset.weight || 'Pending Verification',
-                        security: 'Tier-Delta',
-                        storage: 'SYS-L4-VAULT',
-                        gross: parseFloat(asset.gross) || 0,
-                        link: 'product-detail.html',
-                        categoryType: inferredCategory
-                    };
-                });
-
-            // Flatten compilation array matrices
-            globalRegistryDataset = [...baseStaticInventory, ...formattedApprovals];
-        }
-
-        function filterCategory(categoryKey, actionElement) {
-            activeFilterCategory = categoryKey;
-            
-            // Toggle focus tags within target visual components
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            if (actionElement) {
-                actionElement.classList.add('active');
-            }
-            
-            renderMarketplaceView();
-        }
-
-        function renderMarketplaceView() {
-            const container = document.getElementById('listingsGridContainer');
-            if (!container) return;
-
-            const searchInput = document.getElementById('marketplaceSearch');
-            const searchString = searchInput ? searchInput.value.toLowerCase().trim() : '';
-            container.innerHTML = '';
-
-            const filteredDataset = globalRegistryDataset.filter(item => {
-                const matchesCategory = (activeFilterCategory === 'all' || item.categoryType === activeFilterCategory);
-                const matchesSearch = (
-                    item.title.toLowerCase().includes(searchString) || 
-                    item.tracking.toLowerCase().includes(searchString) || 
-                    item.desc.toLowerCase().includes(searchString)
-                );
-                return matchesCategory && matchesSearch;
-            });
-
-            if (filteredDataset.length === 0) {
-                container.innerHTML = `<div class="empty-results">NO COMPLIANT ASSET MANIFESTS FOUND MATCHING REQUISITION PARAMETERS.</div>`;
-                return;
-            }
-
-            filteredDataset.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'cargo-card';
-                card.innerHTML = `
-                    <div>
-                        <div class="card-header">
-                            <span class="sku-tag">SKU: ${item.tracking}</span>
-                            <span class="status-badge">Available</span>
-                        </div>
-                        <div class="cargo-title">${item.title}</div>
-                        <div class="cargo-desc">${item.desc}</div>
-                        <table class="metrics-table">
-                            <tr><td class="metrics-label">Weight Parameter</td><td class="metrics-value">${item.weight}</td></tr>
-                            <tr><td class="metrics-label">Security Protocol</td><td class="metrics-value">${item.security}</td></tr>
-                            <tr><td class="metrics-label">Depository Storage</td><td class="metrics-value">${item.storage}</td></tr>
-                        </table>
-                    </div>
-                    <div class="card-footer">
-                        <div class="valuation-box">
-                            <span class="val-lbl">Asset Valuation</span>
-                            <span class="val-amt">$${item.gross.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>
-                        </div>
-                        <a href="${item.link}" class="secure-btn">Initialize Acquisition</a>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-       <script>
-        /**
-         * ========================================================================
-         * USFEX CARGO LOGISTICS & ALTER PROTOCOL INTEGRATED SECURE CORE
-         * PUBLIC MANIFEST REGISTRY CORE // STATUS: ACTIVE PIPELINE
-         * ========================================================================
-         */
-
-        /**
-         * AUTHENTICATED MASTER REFERENCE REGISTRY
-         * Hardened using Object.freeze() to prevent browser-level DOM memory manipulation.
-         */
-        const referenceStaticCatalog = Object.freeze([
-            { 
-                id: 'STATIC-1', 
-                tracking: 'USFEX-AU-BL-992A', 
-                title: 'Mint-Certified Gold Bullion (999.9 Fine)', 
-                weight: '2.50 kg', 
-                security: 'Tier-Delta (Sovereign Class)', 
-                storage: 'SYS-L4-VAULT-ALPHA', 
-                gross: 165000.00,
-                status: 'approved'
-            },
-            { 
-                id: 'STATIC-2', 
-                tracking: 'USFEX-CUR-100-DE', 
-                title: 'Vault-Strapped Federal Currency Bundles', 
-                weight: '1.40 kg', 
-                security: 'Tier-Delta (Sovereign Class)', 
-                storage: 'SYS-L4-VAULT-CHARLIE', 
-                gross: 65000.00,
-                status: 'approved'
-            },
-            { 
-                id: 'STATIC-3', 
-                tracking: 'USFEX-JW-SEC-77X', 
-                title: 'Fine Luxury Horology Asset Lots', 
-                weight: '1.00 kg', 
-                security: 'Tier-Delta (Sovereign Class)', 
-                storage: 'SYS-L4-VAULT-BRAVO', 
-                gross: 265000.00,
-                status: 'approved'
-            }
-        ]);
-
-        // Unified State Vector Pipeline Array
-        let globalRegistryDataset = [];
-
-        // Operational Execution Entrypoint
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("[LOGISTICS] INITIALIZING PUBLIC MARKETPLACE REGISTRY UTILITIES...");
-            compileAndVerifyUnifiedDataVector();
-        });
-
-        /**
-         * DATA PIPELINE: Merges static records with volatile administrative 
-         * browser arrays, creating a single unified processing matrix.
-         */
-        function compileAndVerifyUnifiedDataVector() {
-            // Seed master matrix with hardened static items
-            globalRegistryDataset = [...referenceStaticCatalog];
-
-            // Parse and safely integrate administrative custom lots
-            const dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
-            
-            dynamicStore.forEach(asset => {
-                globalRegistryDataset.push({
-                    id: `DYNAMIC-${asset.id}`,
-                    tracking: asset.tracking || 'USFEX-GEN-REGULAR',
-                    title: asset.title || 'Dynamically Verified Asset Manifest',
-                    weight: asset.weight || 'Pending Verification',
-                    security: 'Tier-Delta (Sovereign Class)',
-                    storage: 'SYS-L4-VAULT-DYNAMIC',
-                    gross: parseFloat(asset.gross) || 0,
-                    status: asset.status || 'pending' // Defaults to pending control parameters
-                });
-            });
-
-            renderPublicMarketplaceInterface();
-        }
-
-        /**
-         * INTERFACE RENDERING ENGINE: Loops through datasets, applying strict 
-         * condition filters to hide assets undergoing secure clearance operations.
-         */
-        function renderPublicMarketplaceInterface() {
+        async function loadLiveExchangeRegistry() {
             const container = document.getElementById('marketplaceGridContainer');
             if (!container) return;
 
-            // Clear visual slate before rendering data
-            container.innerHTML = '';
+            try {
+                const response = await fetch('http://localhost:5000/api/products/approved');
+                const products = await response.json();
+                container.innerHTML = '';
 
-            let renderedItemCount = 0;
-
-            globalRegistryDataset.forEach(item => {
-                /**
-                 * CRITICAL STATE FILTER SECURITY GUARD
-                 * If an asset has been isolated under escrow lock or has not cleared 
-                 * administrative validation paths, skip its DOM rendering routine completely.
-                 */
-                if (item.status === 'escrow_locked' || item.status !== 'approved') {
-                    console.log(`[STATE LOG] ASSET ISOLATED. ROUTING SKIPPED FOR SKU: ${item.tracking}`);
+                if (!response.ok || products.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1 / -1; border: 1px dashed var(--border-clinical); padding: 40px; text-align: center; font-family: var(--font-mono); color: var(--text-muted); font-size: 12px;">
+                            [NOTIFICATION] ALL ASSET REGISTRIES REALLOCATED OR LOCKED IN PRIVATE ESCROW POOLS.
+                        </div>`;
                     return;
                 }
 
-                renderedItemCount++;
-
-                // Build structural grid elements with tactical minimalist layouts
-                const card = document.createElement('div');
-                card.className = 'asset-grid-card';
-                card.style.cssText = 'background: #0f1115; border: 1px solid #1c2026; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; position: relative;';
-
-                card.innerHTML = `
-                    <div>
-                        <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #7f8c8d; border-bottom: 1px dashed #1c2026; padding-bottom: 8px; margin-bottom: 15px;">
-                            <span>REG_ID // ${item.id}</span>
-                            <span style="color: #00ff66; font-weight: bold;">[SECURE_REG]</span>
-                        </div>
-                        
-                        <h3 style="font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 15px; font-family: sans-serif;">${item.title}</h3>
-                        
-                        <table style="width: 100%; font-family: monospace; font-size: 11px; color: #7f8c8d; margin-bottom: 20px; border-collapse: collapse;">
-                            <tr style="border-bottom: 1px solid #14161a;">
-                                <td style="padding: 6px 0;">LOGISTICS SKU:</td>
-                                <td style="text-align: right; color: #d4af37; font-weight: bold;">${item.tracking}</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid #14161a;">
-                                <td style="padding: 6px 0;">SECURITY PROTOCOL:</td>
-                                <td style="text-align: right; color: #ffffff;">${item.security}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 6px 0;">DEPOSITORY LOCATION:</td>
-                                <td style="text-align: right; color: #ffffff;">${item.storage}</td>
-                            </tr>
+                products.forEach(asset => {
+                    const card = document.createElement('div');
+                    card.style = "font-family: var(--font-mono); padding: 15px; border: 1px solid var(--border-clinical); background: var(--bg-surface);";
+                    card.innerHTML = `
+                        <div style="font-size: 14px; font-weight: bold; color: #ffffff;">${asset.title}</div>
+                        <div style="color: var(--text-muted); font-size: 11px; margin: 8px 0;">SKU: ${asset.sku}</div>
+                        <table style="width: 100%; font-size: 12px; color: #ccc; margin-bottom: 15px;">
+                            <tr><td>MASS:</td><td style="text-align: right;">${asset.metric_mass}</td></tr>
+                            <tr><td>VALUATION:</td><td style="text-align: right; color: #00ff66;">$${parseFloat(asset.gross_valuation).toLocaleString()}</td></tr>
                         </table>
-                    </div>
-
-                    <div style="border-top: 1px solid #1c2026; padding-top: 15px; margin-top: 10px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                            <span style="font-family: monospace; font-size: 10px; color: #7f8c8d; text-transform: uppercase;">Asset Valuation</span>
-                            <span style="font-family: monospace; font-size: 15px; font-weight: bold; color: #ffffff;">
-                                $${item.gross.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </span>
-                        </div>
-                        
-                        <a href="product-detail.html?id=${item.id}" style="display: block; width: 100%; text-align: center; background: transparent; border: 1px solid #1c2026; color: #ffffff; padding: 10px; font-family: monospace; font-size: 11px; text-decoration: none; font-weight: bold; letter-spacing: 1px; transition: all 0.2s ease;">
-                            INITIALIZE ACQUISITION FLOW
-                        </a>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-
-            // Fallback layout view state handling if all assets are moved out of market
-            if (renderedItemCount === 0) {
-                container.innerHTML = `
-                    <div style="grid-column: 1 / -1; border: 1px dashed #1c2026; padding: 40px; text-align: center; font-family: monospace; color: #7f8c8d; font-size: 12px;">
-                        [NOTIFICATION] ALL ASSET REGISTRIES REALLOCATED OR LOCKED IN PRIVATE ESCROW POOLS.
-                    </div>`;
+                        <a href="product-detail.html?id=${asset.id}" style="display: block; background: #050608; border: 1px solid var(--border-clinical); color: #ffffff; text-align: center; padding: 10px; font-size: 11px; text-decoration: none; font-weight: bold;">INITIALIZE ACQUISITION FLOW</a>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (err) {
+                console.error("Exchange link fault:", err);
             }
         }
     </script>
