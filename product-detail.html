@@ -154,7 +154,7 @@
         <div>DATA PATHS VERIFIED SECURE</div>
     </footer>
 
-    <script>
+     <script>
         let cart = [];
 
         function toggleCart(open) {
@@ -192,24 +192,4 @@
             }
 
             emptyMsg.style.display = 'none';
-            container.innerHTML = `
-                <div class="cart-item">
-                    <div>
-                        <div style="font-size: 14px; font-weight: bold;">\${cart[0].title}</div>
-                        <div style="font-family: monospace; font-size: 11px; color: var(--accent-gold); margin-top:4px;">\${cart[0].id}</div>
-                    </div>
-                    <div style="font-family: monospace; font-weight: bold;">$45,000.00</div>
-                </div>
-            `;
-
-            const subtotal = 45000.00;
-            const logistics = 1500.00; 
-            const total = subtotal + logistics;
-
-            document.getElementById('cartSubtotal').innerText = '$' + subtotal.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('cartShipping').innerText = '$' + logistics.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('cartTotal').innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
-        }
-    </script>
-</body>
-</html>
+            container
