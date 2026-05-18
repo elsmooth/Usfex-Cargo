@@ -152,61 +152,268 @@
     <footer>
         <div>PRODUCT INTEGRATION CONSOLE // V5.0</div>
         <div>DATA PATHS VERIFIED SECURE</div>
-    </footer>    <script>
-        let cart = [];
+    </footer> 
+    <script>
+        /**
+         * ALTER PROTOCOL & USFEX CARGO INTEGRATED LEDGER CONTROLLER
+         * HARDENED FRONT-END ROUTING ENGINE // STATUS: SECURE
+         */
 
-        function toggleCart(open) {
-            const sidebar = document.getElementById('cartSidebar');
-            if (open) sidebar.classList.add('open');
-            else sidebar.classList.remove('open');
-        }
+        // Global State Isolation Vectors
+        let activeAssetContext = null;
+        let acquisitionCart = [];
 
-        function addItemToCart() {
-            if (cart.length === 0) {
-                cart.push({
-                    id: 'USFEX-AU-QS01',
-                    title: 'Unrefined Gold Grain Assay',
-                    price: 45000.00
-                });
-                updateCartUI();
+        // Frozen Security Manifest to prevent client-side runtime tampering
+        const referenceStaticCatalog = Object.freeze([
+            { 
+                id: 'STATIC-1', 
+                tracking: 'USFEX-AU-BL', 
+                title: 'Mint-Certified Gold Bullion', 
+                weight: '2.50 kg', 
+                security: 'Tier-Delta', 
+                storage: 'SYS-L4-VAULT', 
+                gross: 165000.00,
+                clearanceToken: 'AUTH-SIG-88E2X'
+            },
+            { 
+                id: 'STATIC-2', 
+                tracking: 'USFEX-CUR-100', 
+                title: 'Vault-Strapped Currency Bundles', 
+                weight: '1.40 kg', 
+                security: 'Tier-Delta', 
+                storage: 'SYS-L4-VAULT', 
+                gross: 65000.00,
+                clearanceToken: 'AUTH-SIG-44A1P'
+            },
+            { 
+                id: 'STATIC-3', 
+                tracking: 'USFEX-JW-SEC', 
+                title: 'Fine Luxury Timepieces', 
+                weight: '1.00 kg', 
+                security: 'Tier-Delta', 
+                storage: 'SYS-L4-VAULT', 
+                gross: 265000.00,
+                clearanceToken: 'AUTH-SIG-11K9Z'
             }
-            toggleCart(true);
+        ]);
+
+        // Lifecycle Entrypoint Matrix
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("LOGISTICS: INITIALIZING HIGH-AUTHORITY DATA PATH INTEGRATION...");
+            initializeAssetParsingPipeline();
+            synchronizeCartState();
+        });
+
+        /**
+         * State Router: Intercepts URL parameters and performs deep verification 
+         * against core registries or local administrative databases.
+         */
+        function initializeAssetParsingPipeline() {
+            const urlParameters = new URLSearchParams(window.location.search);
+            const targetId = urlParameters.get('id');
+
+            if (!targetId) {
+                renderSystemFailureView("NULL ASSET PARSING DESCRIPTOR PASSED TO RUNTIME PIPELINE.");
+                return;
+            }
+
+            // Route Route Isolation: Static vs Administrative Dynamic Logs
+            if (targetId.startsWith('STATIC-')) {
+                activeAssetContext = referenceStaticCatalog.find(item => item.id === targetId);
+            } else if (targetId.startsWith('DYNAMIC-')) {
+                const cleanId = targetId.replace('DYNAMIC-', '');
+                const dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
+                const rawAsset = dynamicStore.find(item => String(item.id) === cleanId);
+                
+                if (rawAsset) {
+                    activeAssetContext = {
+                        id: targetId,
+                        tracking: rawAsset.tracking || 'USFEX-GEN-REG',
+                        title: rawAsset.title || 'Dynamically Verified Asset Manifest',
+                        weight: rawAsset.weight || 'Pending Telemetry Verification',
+                        security: 'Tier-Delta',
+                        storage: 'SYS-L4-VAULT',
+                        gross: parseFloat(rawAsset.gross) || 0,
+                        clearanceToken: `AUTH-SIG-DYNAMIC-${cleanId}`
+                    };
+                }
+            }
+
+            // Defend layout bounds if validation fails
+            if (!activeAssetContext) {
+                renderSystemFailureView("CRITICAL ASSIGNMENT CONTEXT ERROR: RESOURCE MISSING FROM CENTRAL REGISTRY.");
+                return;
+            }
+
+            bindContextToInterface();
         }
 
-        function updateCartUI() {
+        /**
+         * DOM Binder: Maps authenticated records to their respective layout identifiers.
+         */
+        function bindContextToInterface() {
+            const skuTag = document.getElementById('detailSkuTag');
+            const titleNode = document.getElementById('detailTitle');
+            const weightNode = document.getElementById('metricWeight');
+            const securityNode = document.getElementById('metricSecurity');
+            const storageNode = document.getElementById('metricStorage');
+            const grossNode = document.getElementById('detailGrossValuation');
+
+            if (skuTag) skuTag.innerText = `SKU: ${activeAssetContext.tracking}`;
+            if (titleNode) titleNode.innerText = activeAssetContext.title;
+            if (weightNode) weightNode.innerText = activeAssetContext.weight;
+            if (securityNode) securityNode.innerText = activeAssetContext.security;
+            if (storageNode) storageNode.innerText = activeAssetContext.storage;
+            
+            if (grossNode) {
+                grossNode.innerText = `$${activeAssetContext.gross.toLocaleString('en-US', {
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2
+                })}`;
+            }
+        }
+
+        function renderSystemFailureView(errorMessage) {
+            const displayFrame = document.getElementById('detailMainDisplayFrame');
+            if (displayFrame) {
+                displayFrame.innerHTML = `
+                    <div style="border: 1px solid #ff3b30; background: rgba(255,59,48,0.1); padding: 24px; border-radius: 4px; font-family: monospace; color: #ff3b30; text-align: center; margin: 40px auto; max-width: 600px;">
+                        <div style="font-weight: bold; font-size: 14px; margin-bottom: 8px;">[CRITICAL CLEARANCE FAILURE]</div>
+                        <div style="font-size: 11px; color: #aaa; line-height: 1.6;">${errorMessage}</div>
+                    </div>`;
+            }
+        }
+
+        function toggleCartSidebar(openState) {
+            const sidebar = document.getElementById('cartSidebar');
+            if (!sidebar) return;
+            if (openState) {
+                sidebar.classList.add('open');
+            } else {
+                sidebar.classList.remove('open');
+            }
+        }
+
+        /**
+         * Transaction Handler: Initializes acquisition loop and applies fixed 
+         * standard logistic calculations to the escrow array.
+         */
+        function triggerAcquisitionInitialization() {
+            if (!activeAssetContext) return;
+
+            acquisitionCart = JSON.parse(localStorage.getItem('usfex_active_cart')) || [];
+
+            // Duplicate Prevention Mechanism
+            if (!acquisitionCart.some(cartItem => cartItem.id === activeAssetContext.id)) {
+                acquisitionCart.push({
+                    id: activeAssetContext.id,
+                    tracking: activeAssetContext.tracking,
+                    title: activeAssetContext.title,
+                    gross: activeAssetContext.gross,
+                    logisticsCost: activeAssetContext.gross * 0.01, // Secure 1% Logistics Allocation
+                    signature: activeAssetContext.clearanceToken
+                });
+                localStorage.setItem('usfex_active_cart', JSON.stringify(acquisitionCart));
+            }
+
+            synchronizeCartState();
+            toggleCartSidebar(true);
+        }
+
+        /**
+         * Telemetry Synchronization: Renders cart items and structures financial ledger metrics.
+         */
+        function synchronizeCartState() {
+            acquisitionCart = JSON.parse(localStorage.getItem('usfex_active_cart')) || [];
             const container = document.getElementById('cartItemsContainer');
             const countNav = document.getElementById('cartCountNav');
             const emptyMsg = document.getElementById('emptyCartMsg');
             
-            countNav.innerText = cart.length;
+            if (countNav) countNav.innerText = acquisitionCart.length;
+            if (!container) return;
 
-            if (cart.length === 0) {
-                emptyMsg.style.display = 'block';
+            if (acquisitionCart.length === 0) {
+                if (emptyMsg) emptyMsg.style.display = 'block';
                 container.innerHTML = '';
-                document.getElementById('cartSubtotal').innerText = '$0.00';
-                document.getElementById('cartShipping').innerText = '$0.00';
-                document.getElementById('cartTotal').innerText = '$0.00';
+                updateCostBreakdownNodes(0, 0);
                 return;
             }
 
-            emptyMsg.style.display = 'none';
-            container.innerHTML = `
-                <div class="cart-item">
-                    <div>
-                        <div style="font-size: 14px; font-weight: bold;">${cart[0].title}</div>
-                        <div style="font-family: monospace; font-size: 11px; color: var(--accent-gold); margin-top:4px;">${cart[0].id}</div>
+            if (emptyMsg) emptyMsg.style.display = 'none';
+            container.innerHTML = '';
+
+            let coreSubtotal = 0;
+            let totalLogistics = 0;
+
+            acquisitionCart.forEach((item, index) => {
+                coreSubtotal += item.gross;
+                totalLogistics += item.logisticsCost;
+
+                const row = document.createElement('div');
+                row.className = 'cart-item-row';
+                row.style.cssText = 'background: #0d0e12; padding: 14px; margin-bottom: 12px; border: 1px solid #1f2430; border-radius: 2px;';
+                row.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #d4af37; letter-spacing: 1px;">
+                        <span>MANIFEST: ${item.tracking}</span>
+                        <span style="color: #ff3b30; cursor: pointer; font-weight: bold;" onclick="removeCartItemByIndex(${index})">[PURGE]</span>
                     </div>
-                    <div style="font-family: monospace; font-weight: bold;">$45,000.00</div>
-                </div>
-            `;
+                    <div style="font-size: 13px; font-weight: 500; margin: 6px 0; color: #ffffff; font-family: sans-serif;">${item.title}</div>
+                    <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 11px; color: #888; border-top: 1px dashed #222; padding-top: 6px; margin-top: 6px;">
+                        <span>SECURE SIG: <span style="color: #00ff66;">${item.signature}</span></span>
+                        <span style="color: #ffffff; font-weight: bold;">$${item.gross.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
 
-            const subtotal = 45000.00;
-            const logistics = 1500.00; 
-            const total = subtotal + logistics;
+            updateCostBreakdownNodes(coreSubtotal, totalLogistics);
+        }
 
-            document.getElementById('cartSubtotal').innerText = '$' + subtotal.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('cartShipping').innerText = '$' + logistics.toLocaleString('en-US', {minimumFractionDigits: 2});
-            document.getElementById('cartTotal').innerText = '$' + total.toLocaleString('en-US', {minimumFractionDigits: 2});
+        function removeCartItemByIndex(index) {
+            acquisitionCart.splice(index, 1);
+            localStorage.setItem('usfex_active_cart', JSON.stringify(acquisitionCart));
+            synchronizeCartState();
+        }
+
+        /**
+         * Interface Refresher: Commits financial totals directly onto real-time visual fields.
+         */
+        function updateCostBreakdownNodes(sub, log) {
+            const subtotalNode = document.getElementById('cartSubtotal');
+            const shippingNode = document.getElementById('cartShipping');
+            const totalNode = document.getElementById('cartTotal');
+
+            if (subtotalNode) subtotalNode.innerText = `$${sub.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            if (shippingNode) shippingNode.innerText = `$${log.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+            if (totalNode) totalNode.innerText = `$${(sub + log).toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+        }
+
+        /**
+         * Escrow State Mutator: Sweeps administrative arrays, transitions target states to 
+         * locked status, clearing them from active marketplace views.
+         */
+        function executeEscrowLockoutLoop() {
+            if (acquisitionCart.length === 0) return;
+
+            let dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
+
+            acquisitionCart.forEach(cartItem => {
+                if (cartItem.id.startsWith('DYNAMIC-')) {
+                    const cleanId = cartItem.id.replace('DYNAMIC-', '');
+                    dynamicStore = dynamicStore.map(asset => {
+                        if (String(asset.id) === cleanId) {
+                            asset.status = 'escrow_locked'; // Transition state to clear from marketplace
+                        }
+                        return asset;
+                    });
+                }
+            });
+
+            localStorage.setItem('usfex_all_assets', JSON.stringify(dynamicStore));
+            localStorage.removeItem('usfex_active_cart');
+            
+            console.log("LOGISTICS: DISPATCHING SECURE ESCROW STATE ROUTE TO SUCCESS PANEL.");
+            window.location.href = 'acquisition_success.html';
         }
     </script>
 </body>
