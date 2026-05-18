@@ -364,6 +364,168 @@
                 container.appendChild(card);
             });
         }
+       <script>
+        /**
+         * ========================================================================
+         * USFEX CARGO LOGISTICS & ALTER PROTOCOL INTEGRATED SECURE CORE
+         * PUBLIC MANIFEST REGISTRY CORE // STATUS: ACTIVE PIPELINE
+         * ========================================================================
+         */
+
+        /**
+         * AUTHENTICATED MASTER REFERENCE REGISTRY
+         * Hardened using Object.freeze() to prevent browser-level DOM memory manipulation.
+         */
+        const referenceStaticCatalog = Object.freeze([
+            { 
+                id: 'STATIC-1', 
+                tracking: 'USFEX-AU-BL-992A', 
+                title: 'Mint-Certified Gold Bullion (999.9 Fine)', 
+                weight: '2.50 kg', 
+                security: 'Tier-Delta (Sovereign Class)', 
+                storage: 'SYS-L4-VAULT-ALPHA', 
+                gross: 165000.00,
+                status: 'approved'
+            },
+            { 
+                id: 'STATIC-2', 
+                tracking: 'USFEX-CUR-100-DE', 
+                title: 'Vault-Strapped Federal Currency Bundles', 
+                weight: '1.40 kg', 
+                security: 'Tier-Delta (Sovereign Class)', 
+                storage: 'SYS-L4-VAULT-CHARLIE', 
+                gross: 65000.00,
+                status: 'approved'
+            },
+            { 
+                id: 'STATIC-3', 
+                tracking: 'USFEX-JW-SEC-77X', 
+                title: 'Fine Luxury Horology Asset Lots', 
+                weight: '1.00 kg', 
+                security: 'Tier-Delta (Sovereign Class)', 
+                storage: 'SYS-L4-VAULT-BRAVO', 
+                gross: 265000.00,
+                status: 'approved'
+            }
+        ]);
+
+        // Unified State Vector Pipeline Array
+        let globalRegistryDataset = [];
+
+        // Operational Execution Entrypoint
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("[LOGISTICS] INITIALIZING PUBLIC MARKETPLACE REGISTRY UTILITIES...");
+            compileAndVerifyUnifiedDataVector();
+        });
+
+        /**
+         * DATA PIPELINE: Merges static records with volatile administrative 
+         * browser arrays, creating a single unified processing matrix.
+         */
+        function compileAndVerifyUnifiedDataVector() {
+            // Seed master matrix with hardened static items
+            globalRegistryDataset = [...referenceStaticCatalog];
+
+            // Parse and safely integrate administrative custom lots
+            const dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
+            
+            dynamicStore.forEach(asset => {
+                globalRegistryDataset.push({
+                    id: `DYNAMIC-${asset.id}`,
+                    tracking: asset.tracking || 'USFEX-GEN-REGULAR',
+                    title: asset.title || 'Dynamically Verified Asset Manifest',
+                    weight: asset.weight || 'Pending Verification',
+                    security: 'Tier-Delta (Sovereign Class)',
+                    storage: 'SYS-L4-VAULT-DYNAMIC',
+                    gross: parseFloat(asset.gross) || 0,
+                    status: asset.status || 'pending' // Defaults to pending control parameters
+                });
+            });
+
+            renderPublicMarketplaceInterface();
+        }
+
+        /**
+         * INTERFACE RENDERING ENGINE: Loops through datasets, applying strict 
+         * condition filters to hide assets undergoing secure clearance operations.
+         */
+        function renderPublicMarketplaceInterface() {
+            const container = document.getElementById('marketplaceGridContainer');
+            if (!container) return;
+
+            // Clear visual slate before rendering data
+            container.innerHTML = '';
+
+            let renderedItemCount = 0;
+
+            globalRegistryDataset.forEach(item => {
+                /**
+                 * CRITICAL STATE FILTER SECURITY GUARD
+                 * If an asset has been isolated under escrow lock or has not cleared 
+                 * administrative validation paths, skip its DOM rendering routine completely.
+                 */
+                if (item.status === 'escrow_locked' || item.status !== 'approved') {
+                    console.log(`[STATE LOG] ASSET ISOLATED. ROUTING SKIPPED FOR SKU: ${item.tracking}`);
+                    return;
+                }
+
+                renderedItemCount++;
+
+                // Build structural grid elements with tactical minimalist layouts
+                const card = document.createElement('div');
+                card.className = 'asset-grid-card';
+                card.style.cssText = 'background: #0f1115; border: 1px solid #1c2026; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; position: relative;';
+
+                card.innerHTML = `
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #7f8c8d; border-bottom: 1px dashed #1c2026; padding-bottom: 8px; margin-bottom: 15px;">
+                            <span>REG_ID // ${item.id}</span>
+                            <span style="color: #00ff66; font-weight: bold;">[SECURE_REG]</span>
+                        </div>
+                        
+                        <h3 style="font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 15px; font-family: sans-serif;">${item.title}</h3>
+                        
+                        <table style="width: 100%; font-family: monospace; font-size: 11px; color: #7f8c8d; margin-bottom: 20px; border-collapse: collapse;">
+                            <tr style="border-bottom: 1px solid #14161a;">
+                                <td style="padding: 6px 0;">LOGISTICS SKU:</td>
+                                <td style="text-align: right; color: #d4af37; font-weight: bold;">${item.tracking}</td>
+                            </tr>
+                            <tr style="border-bottom: 1px solid #14161a;">
+                                <td style="padding: 6px 0;">SECURITY PROTOCOL:</td>
+                                <td style="text-align: right; color: #ffffff;">${item.security}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 6px 0;">DEPOSITORY LOCATION:</td>
+                                <td style="text-align: right; color: #ffffff;">${item.storage}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="border-top: 1px solid #1c2026; padding-top: 15px; margin-top: 10px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <span style="font-family: monospace; font-size: 10px; color: #7f8c8d; text-transform: uppercase;">Asset Valuation</span>
+                            <span style="font-family: monospace; font-size: 15px; font-weight: bold; color: #ffffff;">
+                                $${item.gross.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </span>
+                        </div>
+                        
+                        <a href="product-detail.html?id=${item.id}" style="display: block; width: 100%; text-align: center; background: transparent; border: 1px solid #1c2026; color: #ffffff; padding: 10px; font-family: monospace; font-size: 11px; text-decoration: none; font-weight: bold; letter-spacing: 1px; transition: all 0.2s ease;">
+                            INITIALIZE ACQUISITION FLOW
+                        </a>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // Fallback layout view state handling if all assets are moved out of market
+            if (renderedItemCount === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; border: 1px dashed #1c2026; padding: 40px; text-align: center; font-family: monospace; color: #7f8c8d; font-size: 12px;">
+                        [NOTIFICATION] ALL ASSET REGISTRIES REALLOCATED OR LOCKED IN PRIVATE ESCROW POOLS.
+                    </div>`;
+            }
+        }
     </script>
 </body>
 </html>
