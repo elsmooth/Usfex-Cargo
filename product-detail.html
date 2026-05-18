@@ -35,12 +35,10 @@
         main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
         @media (max-width: 768px) { main { grid-template-columns: 1fr; gap: 24px; } }
 
-        /* Left Column: Premium Product Display */
         .product-gallery { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 350px; position: relative; }
         .asset-mock-graphic { font-family: monospace; font-size: 70px; color: rgba(183, 121, 31, 0.15); user-select: none; margin-bottom: 20px; }
         .security-badge { position: absolute; top: 16px; left: 16px; font-family: monospace; font-size: 10px; background: rgba(183, 121, 31, 0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
 
-        /* Right Column: Product Specs & Ordering */
         .product-info { display: flex; flex-direction: column; justify-content: space-between; }
         .sku-tag { font-family: monospace; font-size: 12px; color: var(--accent-gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
         h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; }
@@ -54,7 +52,6 @@
         .btn-add-cart { width: 100%; background-color: var(--accent-gold); border: 1px solid var(--accent-gold); color: white; padding: 16px; border-radius: 4px; font-weight: 600; font-size: 14px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; }
         .btn-add-cart:hover { background-color: var(--accent-gold-hover); }
 
-        /* Slide-out Shopping Cart UI Container */
         .cart-sidebar { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background-color: var(--bg-surface); border-left: 1px solid var(--border-color); box-shadow: -10px 0 30px rgba(0,0,0,0.5); padding: 32px; display: flex; flex-direction: column; justify-content: space-between; transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; }
         .cart-sidebar.open { right: 0; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; }
@@ -114,7 +111,7 @@
                         <td class="spec-value">Raw Assayed / Unrefined</td>
                     </tr>
                     <tr>
-                        <td class="spec-label">Custory Status</td>
+                        <td class="spec-label">Custody Status</td>
                         <td class="spec-value" style="color: var(--success-green);">Available for Acquisition</td>
                     </tr>
                 </table>
@@ -167,7 +164,6 @@
         }
 
         function addItemToCart() {
-            // Check if item is already added to prevent duplicates for unique assets
             if (cart.length === 0) {
                 cart.push({
                     id: 'USFEX-AU-QS01',
@@ -199,16 +195,15 @@
             container.innerHTML = `
                 <div class="cart-item">
                     <div>
-                        <div style="font-size: 14px; font-weight: bold;">${cart[0].title}</div>
-                        <div style="font-family: monospace; font-size: 11px; color: var(--accent-gold); margin-top:4px;">${cart[0].id}</div>
+                        <div style="font-size: 14px; font-weight: bold;">\${cart[0].title}</div>
+                        <div style="font-family: monospace; font-size: 11px; color: var(--accent-gold); margin-top:4px;">\${cart[0].id}</div>
                     </div>
                     <div style="font-family: monospace; font-weight: bold;">$45,000.00</div>
                 </div>
             `;
 
-            // Update checkout figures
             const subtotal = 45000.00;
-            const logistics = 1500.00; // Standard premium tactical surcharge
+            const logistics = 1500.00; 
             const total = subtotal + logistics;
 
             document.getElementById('cartSubtotal').innerText = '$' + subtotal.toLocaleString('en-US', {minimumFractionDigits: 2});
