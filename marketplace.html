@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USFEX CARGO // SECURE MARKETPLACE</title>
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-surface: #141923;
+            --bg-card: #1b2332;
+            --accent-gold: #b7791f;
+            --accent-gold-hover: #dd9a32;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --border-color: #2d3748;
+            --status-secure: #48bb78;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main); color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
+        }
+        header {
+            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
+        }
+        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-gold); }
+        
+        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; }
+        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;}
+
+        /* Inventory Layout Grid */
+        .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; width: 100%; }
+        .cargo-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
+        .sku-tag { font-family: monospace; font-size: 12px; color: var(--accent-gold); font-weight: bold; }
+        .status-badge { font-family: monospace; font-size: 10px; color: var(--status-secure); background: rgba(72, 187, 120, 0.1); border: 1px solid rgba(72, 187, 120, 0.2); padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        
+        .cargo-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+        .cargo-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px; min-height: 40px; }
+        
+        /* Technical Metrics Table */
+        .metrics-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-family: monospace; font-size: 12px; }
+        .metrics-table td { padding: 6px 0; border-bottom: 1px solid rgba(45, 55, 72, 0.4); }
+        .metrics-label { color: var(--text-secondary); }
+        .metrics-value { text-align: right; color: var(--text-primary); font-weight: bold; }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .valuation-box { display: flex; flex-direction: column; }
+        .val-lbl { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .val-amt { font-size: 18px; font-weight: bold; color: var(--text-primary); font-family: monospace; }
+        
+        .secure-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px 16px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; transition: all 0.2s; }
+        .cargo-card:hover { border-color: #4a5568; }
+        .cargo-card:hover .secure-btn { background-color: var(--accent-gold); border-color: var(--accent-gold); color: white; }
+
+        footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <a href="index.html" class="brand-logo">USFEX CARGO</a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">← Return to Dashboard</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Verified Asset Marketplace</h1>
+        <div class="subtitle">Section 3.A // Real-Time High-Value Inventory Registry</div>
+
+        <div class="listings-grid">
+            
+            <div class="cargo-card">
+                <div>
+                    <div class="card-header">
+                        <span class="sku-tag">SKU: USFEX-AU-BL</span>
+                        <span class="status-badge">Available</span>
+                    </div>
+                    <div class="cargo-title">Mint-Certified Gold Bullion</div>
+                    <div class="cargo-desc">Secured vault holding comprising fine investment-grade physical casting bars with full custody trail markers intact.</div>
+                    <table class="metrics-table">
+                        <tr><td class="metrics-label">Weight Parameter</td><td class="metrics-value">2.50 kg</td></tr>
+                        <tr><td class="metrics-label">Security Protocol</td><td class="metrics-value">Tier-Delta</td></tr>
+                        <tr><td class="metrics-label">Depository Storage</td><td class="metrics-value">SYS-L4-VAULT</td></tr>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="valuation-box">
+                        <span class="val-lbl">Asset Valuation</span>
+                        <span class="val-amt">$165,000.00</span>
+                    </div>
+                    <a href="official_customer_agreement.html" class="secure-btn">Initialize Acquisition</a>
+                </div>
+            </div>
+
+            <div class="cargo-card">
+                <div>
+                    <div class="card-header">
+                        <span class="sku-tag">SKU: USFEX-CUR-100</span>
+                        <span class="status-badge">Available</span>
+                    </div>
+                    <div class="cargo-title">Vault-Strapped Currency Bundles</div>
+                    <div class="cargo-desc">Secured physical reserve currency packages held under absolute escrow clearance processing paths.</div>
+                    <table class="metrics-table">
+                        <tr><td class="metrics-label">Weight Parameter</td><td class="metrics-value">1.40 kg</td></tr>
+                        <tr><td class="metrics-label">Security Protocol</td><td class="metrics-value">Tier-Delta</td></tr>
+                        <tr><td class="metrics-label">Depository Storage</td><td class="metrics-value">SYS-L4-VAULT</td></tr>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="valuation-box">
+                        <span class="val-lbl">Asset Valuation</span>
+                        <span class="val-amt">$65,000.00</span>
+                    </div>
+                    <a href="official_customer_agreement.html" class="secure-btn">Initialize Acquisition</a>
+                </div>
+            </div>
+
+            <div class="cargo-card">
+                <div>
+                    <div class="card-header">
+                        <span class="sku-tag">SKU: USFEX-JW-SEC</span>
+                        <span class="status-badge">Available</span>
+                    </div>
+                    <div class="cargo-title">Fine Luxury Timepieces</div>
+                    <div class="cargo-desc">High-grade authenticated chronological inventory sets safely allocated within dynamic asset tracking containers.</div>
+                    <table class="metrics-table">
+                        <tr><td class="metrics-label">Weight Parameter</td><td class="metrics-value">1.00 kg</td></tr>
+                        <tr><td class="metrics-label">Security Protocol</td><td class="metrics-value">Tier-Delta</td></tr>
+                        <tr><td class="metrics-label">Depository Storage</td><td class="metrics-value">SYS-L4-VAULT</td></tr>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <div class="valuation-box">
+                        <span class="val-lbl">Asset Valuation</span>
+                        <span class="val-amt">$265,000.00</span>
+                    </div>
+                    <a href="official_customer_agreement.html" class="secure-btn">Initialize Acquisition</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div>MARKETPLACE COMPLIANCE INTERFACE // v1.0</div>
+        <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
+    </footer>
+
+</body>
+</html>
