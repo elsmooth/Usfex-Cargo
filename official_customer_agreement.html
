@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>USFEX Cargo Logistics - Master Consignment Agreement</title>
+    <style>
+        body {
+            margin: 0; padding: 40px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 13px; line-height: 1.5; color: #2d3748;
+            background-color: #ffffff;
+        }
+        .header-banner {
+            background-color: #1a202c; color: #ffffff;
+            padding: 25px; margin-bottom: 30px;
+            border-bottom: 3px solid #b7791f;
+        }
+        .brand-title { font-size: 24px; font-weight: 800; margin: 0; letter-spacing: 1px; }
+        .brand-subtitle { font-size: 11px; color: #a0aec0; text-transform: uppercase; margin-top: 5px; }
+        h2 { font-size: 14px; text-transform: uppercase; color: #1a202c; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; margin-top: 30px; }
+        .fill-matrix, .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .fill-matrix td, .data-table td, .data-table th { border: 1px solid #cbd5e0; padding: 10px; text-align: left; }
+        .fill-label { background-color: #f7fafc; font-weight: bold; width: 30%; }
+        .data-table th { background-color: #2d3748; color: white; }
+        .text-right { text-align: right; }
+        .mono { font-family: monospace; font-weight: bold; color: #2b6cb0; }
+        .summary-box { background-color: #fffaf0; border-left: 4px solid #b7791f; padding: 15px; margin: 20px 0; }
+        .signature-line { border-bottom: 1px solid #718096; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1 class="brand-title">USFEX CARGO</h1>
+        <div class="brand-subtitle">Secured Custody Tracking // Control Ref: USFEX-2026-CA-099</div>
+    </div>
+
+    <h2>1. Customer Identification Record</h2>
+    <table class="fill-matrix">
+        <tr><td class="fill-label">Customer Full Name</td><td>__________________________________________________</td></tr>
+        <tr><td class="fill-label">Primary Phone Contact</td><td>__________________________________________________</td></tr>
+        <tr><td class="fill-label">Secured Email Route</td><td>__________________________________________________</td></tr>
+        <tr><td class="fill-label">Registered Home Address</td><td>__________________________________________________</td></tr>
+        <tr><td class="fill-label">Valid ID Details</td><td>__________________________________________________</td></tr>
+    </table>
+
+    <h2>2. Certified Cargo Manifest</h2>
+    <table class="data-table">
+        <thead>
+            <tr><th>Item Ref</th><th>Description</th><th class="text-right">Weight</th><th class="text-right">Valuation</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="mono">AU-BL</td><td>Gold Bullion (Fine Mint Bars)</td><td class="text-right">2.50 kg</td><td class="text-right">$165,000.00</td></tr>
+            <tr><td class="mono">CUR-100</td><td>Vault-Strapped Currency (USD Bundles)</td><td class="text-right">1.40 kg</td><td class="text-right">$65,000.00</td></tr>
+            <tr><td class="mono">JW-SEC</td><td>Fine Jewelry & Luxury Timepieces</td><td class="text-right">1.00 kg</td><td class="text-right">$265,000.00</td></tr>
+            <tr style="font-weight: bold; background-color: #edf2f7;">
+                <td colspan="2">TOTAL CONTAINER PARAMETERS</td><td class="text-right">4.90 kg</td><td class="text-right">$495,000.00</td></tr>
+        </tbody>
+    </table>
+
+    <h2>3. Final Adjusted Ledger Summary</h2>
+    <div class="summary-box">
+        <p>1. Secure Depository Vault Holding Fee: <span class="mono">$2,000.00</span></p>
+        <p>2. Elite Tactical Perimeter Ground Escort Surcharge: <span class="mono">$1,500.00</span></p>
+        <h3 style="color:#b7791f; margin: 10px 0 0 0;">TOTAL OUTSTANDING BALANCE DUE: $3,500.00</h3>
+    </div>
+
+    <div style="margin-top: 60px; display: flex; justify-content: space-between;">
+        <div style="width: 45%;">
+            <div class="signature-line"></div>
+            <p><strong>Director Arianna Porter</strong><br>USFEX Cargo Logistics Control</p>
+        </div>
+        <div style="width: 45%;">
+            <div class="signature-line"></div>
+            <p><strong>Authorized Account Signatory</strong><br>Customer Signature Block</p>
+        </div>
+    </div>
+
+</body>
+</html>
