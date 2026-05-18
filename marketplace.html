@@ -218,7 +218,7 @@
         <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
     </footer>
 
-    <script>
+      <script>
         // Static Inventory Vector Base Configuration
         const baseStaticInventory = [
             { id: 'STATIC-1', tracking: 'USFEX-AU-BL', title: 'Mint-Certified Gold Bullion', desc: 'Secured vault holding comprising fine investment-grade physical casting bars with full custody trail markers intact.', weight: '2.50 kg', security: 'Tier-Delta', storage: 'SYS-L4-VAULT', gross: 165000, link: 'official_customer_agreement.html', categoryType: 'AU' },
@@ -245,7 +245,6 @@
             const formattedApprovals = dynamicApprovals
                 .filter(asset => asset.status === 'approved')
                 .map(asset => {
-                    // Extract core category tags from Tracking configurations
                     let inferredCategory = 'AU';
                     if(asset.tracking.includes('-JW-')) inferredCategory = 'JW';
                     if(asset.tracking.includes('-CUR-')) inferredCategory = 'CUR';
@@ -259,7 +258,7 @@
                         security: 'Tier-Delta',
                         storage: 'SYS-L4-VAULT',
                         gross: asset.gross,
-                        link: 'product-detail.html', // Direct routing back to assignment detail frame
+                        link: 'product-detail.html',
                         categoryType: inferredCategory
                     };
                 });
