@@ -1,8 +1,153 @@
-            <div class="portal-card">
-                <div>
-                    <div class="card-meta">System Control Ref // 102</div>
-                    <div class="card-title">Ledger Control Console</div>
-                    <div class="card-desc">Execute high-level operational surcharge configurations, alter depository vault metrics, and modify active administrative values.</div>
-                </div>
-                <a href="admin-dashboard.html" class="action-button">Launch Console Terminal</a>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USFEX CARGO // ADMINISTRATIVE CONTROL PANEL</title>
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-surface: #141923;
+            --bg-card: #1b2332;
+            --accent-gold: #b7791f;
+            --accent-gold-hover: #dd9a32;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --border-color: #2d3748;
+            --status-pending: #ecc94b;
+            --status-approved: #48bb78;
+            --status-rejected: #f56565;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main); color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
+        }
+        header {
+            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
+        }
+        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-gold); }
+        
+        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; }
+        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;}
+
+        /* Queue Table Wrapper */
+        .admin-panel { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; overflow-x: auto; }
+        .panel-header { font-size: 16px; font-weight: 600; margin-bottom: 20px; font-family: monospace; letter-spacing: 0.5px; color: var(--accent-gold); }
+        
+        .queue-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        .queue-table th { background-color: var(--bg-card); color: var(--text-secondary); font-family: monospace; text-transform: uppercase; font-size: 11px; padding: 12px 16px; border-bottom: 1px solid var(--border-color); letter-spacing: 0.5px; }
+        .queue-table td { padding: 16px; border-bottom: 1px solid rgba(45, 55, 72, 0.4); vertical-align: middle; }
+        
+        .sku-txt { font-family: monospace; font-weight: bold; color: var(--text-primary); }
+        .lbl-amt { font-family: monospace; font-weight: bold; }
+        
+        .badge { font-family: monospace; font-size: 10px; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; font-weight: bold; }
+        .badge-pending { color: var(--status-pending); background: rgba(236, 201, 75, 0.1); border: 1px solid rgba(236, 201, 75, 0.2); }
+        .badge-approved { color: var(--status-approved); background: rgba(72, 187, 120, 0.1); border: 1px solid rgba(72, 187, 120, 0.2); }
+        .badge-rejected { color: var(--status-rejected); background: rgba(245, 101, 101, 0.1); border: 1px solid rgba(245, 101, 101, 0.2); }
+
+        /* Action Controls */
+        .btn-group { display: flex; gap: 8px; }
+        .action-btn { font-family: monospace; font-size: 11px; font-weight: bold; text-transform: uppercase; padding: 6px 12px; border-radius: 4px; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; }
+        .btn-approve { background-color: rgba(72, 187, 120, 0.1); color: var(--status-approved); border-color: rgba(72, 187, 120, 0.3); }
+        .btn-approve:hover { background-color: var(--status-approved); color: #0b0e14; }
+        .btn-reject { background-color: rgba(245, 101, 101, 0.1); color: var(--status-rejected); border-color: rgba(245, 101, 101, 0.3); }
+        .btn-reject:hover { background-color: var(--status-rejected); color: white; }
+
+        footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <a href="index.html" class="brand-logo">USFEX CARGO</a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">← Return to Dashboard</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Administrative Approval Console</h1>
+        <div class="subtitle">Section 4 // Consignment Validation Pipeline & Split-Fee Auditing</div>
+
+        <div class="admin-panel">
+            <div class="panel-header">PENDING INTAKE QUEUE</div>
+            
+            <table class="queue-table">
+                <thead>
+                    <tr>
+                        <th>Asset Tracking ID</th>
+                        <th>Cargo Title</th>
+                        <th>Gross Value</th>
+                        <th>Platform Fee (Deducted)</th>
+                        <th>Net Seller Payout</th>
+                        <th>System Status</th>
+                        <th style="text-align: right;">Authorization Link</th>
+                    </tr>
+                </thead>
+                <tbody id="queueBody">
+                    <tr id="row-1">
+                        <td class="sku-txt">USFEX-AU-QS01</td>
+                        <td><strong>Unrefined Gold Grain Assay</strong><br><span style="font-size:12px; color:var(--text-secondary);">Weight: 1.20 kg // Condition: Raw Assayed</span></td>
+                        <td class="lbl-amt">$45,000.00</td>
+                        <td class="lbl-amt" style="color: var(--status-rejected);">-$4,500.00 (10%)</td>
+                        <td class="lbl-amt" style="color: var(--status-approved);">$40,500.00</td>
+                        <td><span class="badge badge-pending" id="status-1">Pending</span></td>
+                        <td style="text-align: right;">
+                            <div class="btn-group" style="justify-content: flex-end;" id="actions-1">
+                                <button class="action-btn btn-approve" onclick="processAsset(1, 'approve')">Approve</button>
+                                <button class="action-btn btn-reject" onclick="processAsset(1, 'reject')">Reject</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="row-2">
+                        <td class="sku-txt">USFEX-JW-QS02</td>
+                        <td><strong>Premium Chronometer Lot</strong><br><span style="font-size:12px; color:var(--text-secondary);">Weight: 0.80 kg // Condition: Mint Certified</span></td>
+                        <td class="lbl-amt">$120,000.00</td>
+                        <td class="lbl-amt" style="color: var(--status-rejected);">-$6,000.00 (5%)</td>
+                        <td class="lbl-amt" style="color: var(--status-approved);">$114,000.00</td>
+                        <td><span class="badge badge-pending" id="status-2">Pending</span></td>
+                        <td style="text-align: right;">
+                            <div class="btn-group" style="justify-content: flex-end;" id="actions-2">
+                                <button class="action-btn btn-approve" onclick="processAsset(2, 'approve')">Approve</button>
+                                <button class="action-btn btn-reject" onclick="processAsset(2, 'reject')">Reject</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <div>ADMIN GATEWAY CONSOLE // RUNNING NODE EXECUTION LAYER</div>
+        <div>CONFIDENTIAL NOTICE: INTERNAL LOGISTICS RECORD SYSTEM ONLY</div>
+    </footer>
+
+    <script>
+        function processAsset(rowId, decision) {
+            const statusBadge = document.getElementById('status-' + rowId);
+            const actionContainer = document.getElementById('actions-' + rowId);
+            
+            if (decision === 'approve') {
+                statusBadge.className = 'badge badge-approved';
+                statusBadge.innerText = 'Approved / Live';
+                actionContainer.innerHTML = '<span style="color: var(--status-approved); font-family: monospace; font-size:11px;">PROCESSED TO MARKETPLACE</span>';
+            } else if (decision === 'reject') {
+                statusBadge.className = 'badge badge-rejected';
+                statusBadge.innerText = 'Rejected';
+                actionContainer.innerHTML = '<span style="color: var(--status-rejected); font-family: monospace; font-size:11px;">MANIFEST DISMISSED</span>';
+            }
+        }
+    </script>
+</body>
+</html>
