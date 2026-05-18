@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USFEX CARGO // INTERNAL ROUTING SYSTEMS</title>
+    <title>USFEX CARGO // OPERATIONAL OVERVIEW</title>
     <style>
         :root {
             --bg-main: #0b0e14;
@@ -25,20 +25,24 @@
             display: flex; justify-content: space-between; align-items: center;
             padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
         }
-        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; }
+        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
         .brand-tagline { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-        .system-status { font-family: monospace; font-size: 11px; background: rgba(47, 133, 90, 0.15); color: #48bb78; padding: 4px 12px; border: 1px solid rgba(48, 187, 120, 0.3); border-radius: 12px; }
-        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
-        .welcome-hero h1 { font-size: 32px; font-weight: 700; margin-bottom: 12px; }
-        .welcome-hero p { color: var(--text-secondary); font-size: 15px; margin-bottom: 40px; }
-        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; width: 100%; }
-        .portal-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 32px; transition: all 0.25s ease; position: relative; }
-        .portal-card:hover { transform: translateY(-4px); border-color: #4a5568; }
-        .card-meta { font-family: monospace; font-size: 11px; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 8px; }
-        .card-title { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
-        .card-desc { color: var(--text-secondary); font-size: 13.5px; line-height: 1.5; margin-bottom: 32px; }
-        .action-button { display: inline-flex; background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; }
-        .portal-card:hover .action-button { background-color: var(--accent-gold); border-color: var(--accent-gold); color: white; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-gold); }
+        
+        main { width: 100%; max-width: 800px; margin: auto; flex-grow: 1; padding: 20px 0; }
+        h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .subtitle { color: var(--accent-gold); font-family: monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 32px; }
+        
+        .content-section { margin-bottom: 40px; }
+        h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); }
+        p { color: var(--text-secondary); font-size: 14.5px; line-height: 1.6; margin-bottom: 16px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 24px 0; }
+        .stat-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); padding: 20px; border-radius: 6px; }
+        .stat-val { color: var(--text-primary); font-family: monospace; font-size: 18px; font-weight: bold; margin-bottom: 4px; }
+        .stat-lbl { color: var(--text-secondary); font-size: 12px; text-transform: uppercase; }
+        
         footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
     </style>
 </head>
@@ -46,30 +50,45 @@
 
     <header>
         <div>
-            <div class="brand-logo">USFEX CARGO</div>
+            <a href="index.html" class="brand-logo">USFEX CARGO</a>
             <div class="brand-tagline">Secure Logistics Management Network</div>
         </div>
-        <div class="system-status">NODE: ONLINE // SECURE</div>
+        <div class="nav-links">
+            <a href="index.html">← Return to Dashboard</a>
+        </div>
     </header>
 
     <main>
-        <div class="welcome-hero">
-            <h1>Command Registry Dashboard</h1>
-            <p>Welcome to the centralized entry point for corporate asset movement protocols, system ledgers, and verified clearing workflows.</p>
-        </div>
+        <section class="content-section">
+            <h1>Corporate Infrastructure</h1>
+            <div class="subtitle">Operational Matrix & Compliance Brief</div>
+            <p>USFEX Cargo operates a high-security, dynamic asset routing registry framework engineered specifically for high-value consignment transit, tactical terminal forwarding management, and secure asset escrow custody solutions.</p>
+        </section>
 
-        <div class="dashboard-grid">
-            <div class="portal-card">
-                <div class="card-meta">System Process Ref // 099</div>
-                <div class="card-title">Customer Custody Agreement</div>
-                <div class="card-desc">Review, process, and compile print-optimized A4 custody documents for verified client identity inputs and asset tracking manifests.</div>
-                <a href="official_customer_agreement.html" class="action-button">Launch Document Interface</a>
+        <section class="content-section">
+            <h2>Tier-Delta Custody Controls</h2>
+            <p>All items routed through our distribution parameters—including precious metals, secure currency bundles, and authenticated assets—are locked under stringent custody metrics. From receipt at <code>SYS-L4-GATEWAY</code> to clearing at active delivery targets, integrity validation remains absolute.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val">usfexcargo@gmail.com</div>
+                    <div class="stat-lbl">Secured Routing Email</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val">+1 (843) 939-8913</div>
+                    <div class="stat-lbl">WhatsApp Support Link</div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section class="content-section">
+            <h2>Command Leadership</h2>
+            <p>Under the operational directory of CEO <strong>Pascal O. Nyiam</strong>, the system maintains strict accountability over maritime and ground transport vectors, enforcing end-to-end clearance protocols and uncompromised regulatory alignment across all active logistics nodes.</p>
+        </section>
     </main>
 
     <footer>
-        <div>SYSTEM REF: USFEX-CORE-MAIN</div>
+        <div>SYSTEM REF: USFEX-ABOUT-v1</div>
         <div>CONFIDENTIALITY NOTICE: TIER-DELTA SECURITY PROTOCOLS ENFORCED</div>
     </footer>
 
