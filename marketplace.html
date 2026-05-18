@@ -107,6 +107,115 @@
     <footer>
         <div>MARKETPLACE COMPLIANCE INTERFACE // v1.0</div>
         <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
+    </footer><a href="marketplace.html" class="action-button" style="display:none;">Open Asset Marketplace</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USFEX CARGO // SECURE MARKETPLACE</title>
+    <style>
+        :root {
+            --bg-main: #0b0e14;
+            --bg-surface: #141923;
+            --bg-card: #1b2332;
+            --accent-gold: #b7791f;
+            --accent-gold-hover: #dd9a32;
+            --text-primary: #f7fafc;
+            --text-secondary: #a0aec0;
+            --border-color: #2d3748;
+            --status-secure: #48bb78;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main); color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
+        }
+        header {
+            width: 100%; max-width: 1200px; margin: 0 auto 40px auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 16px; border-bottom: 1px solid var(--border-color);
+        }
+        .brand-logo { font-size: 18px; font-weight: 800; letter-spacing: 2px; text-decoration: none; color: white; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-family: monospace; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-gold); }
+        
+        main { width: 100%; max-width: 1200px; margin: auto; flex-grow: 1; w-index: 1; }
+        h1 { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { color: var(--text-secondary); font-size: 14px; margin-bottom: 32px; font-family: monospace; text-transform: uppercase; letter-spacing: 0.5px;}
+
+        /* Filter Controls Interface Block */
+        .filter-wrapper { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 32px; background-color: var(--bg-surface); padding: 16px; border: 1px solid var(--border-color); border-radius: 6px; }
+        .search-input { flex: 1; min-width: 280px; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 4px; padding: 10px 16px; color: var(--text-primary); font-family: monospace; font-size: 13px; outline: none; transition: border-color 0.2s; }
+        .search-input:focus { border-color: var(--accent-gold); }
+        .filter-btn-group { display: flex; gap: 8px; }
+        .filter-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-secondary); padding: 10px 16px; border-radius: 4px; font-family: monospace; font-size: 11px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+        .filter-btn:hover, .filter-btn.active { border-color: var(--accent-gold); color: var(--text-primary); background-color: rgba(183, 121, 31, 0.1); }
+
+        /* Inventory Layout Grid */
+        .listings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; width: 100%; }
+        .cargo-card { background-color: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; }
+        .sku-tag { font-family: monospace; font-size: 12px; color: var(--accent-gold); font-weight: bold; }
+        .status-badge { font-family: monospace; font-size: 10px; color: var(--status-secure); background: rgba(72, 187, 120, 0.1); border: 1px solid rgba(72, 187, 120, 0.2); padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        
+        .cargo-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+        .cargo-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px; min-height: 40px; }
+        
+        /* Technical Metrics Table */
+        .metrics-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-family: monospace; font-size: 12px; }
+        .metrics-table td { padding: 6px 0; border-bottom: 1px solid rgba(45, 55, 72, 0.4); }
+        .metrics-label { color: var(--text-secondary); }
+        .metrics-value { text-align: right; color: var(--text-primary); font-weight: bold; }
+
+        .card-footer { display: flex; justify-content: space-between; align-items: center; }
+        .valuation-box { display: flex; flex-direction: column; }
+        .val-lbl { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+        .val-amt { font-size: 18px; font-weight: bold; color: var(--text-primary); font-family: monospace; }
+        
+        .secure-btn { background-color: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-primary); padding: 10px 16px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: 600; transition: all 0.2s; text-align: center; }
+        .cargo-card:hover { border-color: #4a5568; transform: translateY(-2px); }
+        .cargo-card:hover .secure-btn { background-color: var(--accent-gold); border-color: var(--accent-gold); color: white; }
+
+        .empty-results { grid-column: 1 / -1; background-color: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 6px; padding: 40px; text-align: center; font-family: monospace; color: var(--text-secondary); font-size: 13px; }
+
+        footer { width: 100%; max-width: 1200px; margin: 60px auto 0 auto; padding-top: 16px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; font-family: monospace; font-size: 10px; color: #4a5568; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <a href="index.html" class="brand-logo">USFEX CARGO</a>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">← Return to Dashboard</a>
+        </div>
+    </header>
+
+    <main>
+        <h1>Verified Asset Marketplace</h1>
+        <div class="subtitle">Section 3.A // Real-Time High-Value Inventory Registry</div>
+
+        <div class="filter-wrapper">
+            <input type="text" id="marketplaceSearch" class="search-input" placeholder="RUN INDEX SEARCH... (e.g. Gold, Currency, SKU Code)">
+            <div class="filter-btn-group">
+                <button class="filter-btn active" onclick="filterCategory('all', this)">All Vectors</button>
+                <button class="filter-btn" onclick="filterCategory('AU', this)">Precious Metals</button>
+                <button class="filter-btn" onclick="filterCategory('JW', this)">Luxury Goods</button>
+                <button class="filter-btn" onclick="filterCategory('CUR', this)">Currency Reserves</button>
+            </div>
+        </div>
+
+        <div class="listings-grid" id="listingsGridContainer">
+            </div>
+    </main>
+
+    <footer>
+        <div>MARKETPLACE COMPLIANCE INTERFACE // v1.0</div>
+        <div>TIER-DELTA ENCRYPTION CONTROL STACKS ACTIVE</div>
     </footer>
 
     <script>
