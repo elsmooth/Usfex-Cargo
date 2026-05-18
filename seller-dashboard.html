@@ -243,46 +243,44 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            calculateLiveTelemetryAnalytics();
-        });
+    document.addEventListener('DOMContentLoaded', () => {
+        const ingressForm = document.getElementById('ingressForm');
+        if (ingressForm) {
+            ingressForm.addEventListener('submit', executeAssetVaultIngress);
+        }
+    });
 
-        /**
-         * Automated Analytics Aggregator: Automatically scans backend storage
-         * vectors to compute actual production-grade totals across the home portal.
-         */
-        function calculateLiveTelemetryAnalytics() {
-            const dynamicStore = JSON.parse(localStorage.getItem('usfex_all_assets')) || [];
-            
-            // Fixed reference base values to ensure realistic initial baseline data
-            let coreWeightAccumulator = 4.90; 
-            let valuationAccumulator = 495000.00;
+    async function executeAssetVaultIngress(event) {
+        event.preventDefault();
 
-            // Dynamically combine valid inventory metrics
-            dynamicStore.forEach(asset => {
-                if (asset.status === 'approved') {
-                    valuationAccumulator += parseFloat(asset.gross) || 0;
-                    
-                    // Parse raw text weights if provided dynamically
-                    const numericalWeight = parseFloat(asset.weight);
-                    if (!isNaN(numericalWeight)) {
-                        coreWeightAccumulator += numericalWeight;
-                    }
-                }
+        const title = document.getElementById('assetTitle').value;
+        const weight = document.getElementById('assetWeight').value;
+        const gross = document.getElementById('assetGross').value;
+
+        const payload = { title, weight, gross };
+
+        try {
+            const response = await fetch('http://localhost:5000/api/products/ingress', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('usfex_auth_token')}`
+                },
+                body: JSON.stringify(payload)
             });
 
-            // Format data metrics neatly on front-end displays
-            const weightDisplayNode = document.getElementById('telemetryCapacity');
-            const grossDisplayNode = document.getElementById('telemetryValuation');
+            const data = await response.json();
 
-            if (weightDisplayNode) weightDisplayNode.innerText = `${coreWeightAccumulator.toFixed(2)} kg`;
-            if (grossDisplayNode) {
-                grossDisplayNode.innerText = `$${valuationAccumulator.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                })}`;
+            if (response.ok) {
+                alert(`ASSET MANIFEST DEPOSITED IN LIVE DB // SKU: ${data.asset.sku}\nSTATUS: AWAITING CLEARANCE.`);
+                document.getElementById('ingressForm').reset();
+                window.location.href = 'index.html';
+            } else {
+                alert(`[INGRESS_REJECTION] Error: ${data.error}`);
             }
+        } catch (err) {
+            console.error("API Communication Failure:", err);
+            alert("[CRITICAL_NETWORK_FAULT] Could not establish connection to operations server.");
         }
-    </script>
-</body>
-</html>
+    }
+</script>
