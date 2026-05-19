@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consignor Portal | USFEX</title>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0c;
+            --bg-secondary: #121216;
+            --accent-blue: #0070f3;
+            --text-main: #f5f5f7;
+            --text-muted: #8e8e93;
+            --border-color: #222226;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { background-color: var(--bg-primary); color: var(--text-main); padding-bottom: 40px; }
+        header { background-color: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo-area { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--text-main); text-decoration: none; }
+        .container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        .card { background-color: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-top: 20px; }
+        h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input { wIdth: 100%; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px; color: var(--text-main); font-size: 14px; }
+        input:focus { border-color: var(--accent-blue); outline: none; }
+        .submit-btn { wIdth: 100%; background-color: var(--accent-blue); color: white; border: none; padding: 14px; font-weight: 600; font-size: 14px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; }
+        .status-msg { margin-top: 15px; padding: 12px; border-radius: 6px; font-size: 13px; display: none; }
+        .success { background-color: rgba(0, 223, 137, 0.1); color: #00df89; border: 1px solid rgba(0, 223, 137, 0.2); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/index.html" class="logo-area">
+            <i data-feather="package" style="color: var(--accent-blue)"></i>
+            <span>USFEX CONSIGNOR</span>
+        </a>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <h2>Submit Asset to Consignment Ingress</h2>
+            <form Id="ingressForm">
+                <div class="form-group">
+                    <label>Asset Title / Description</label>
+                    <input type="text" Id="title" placeholder="e.g., Enterprise Server Rack" required>
+                </div>
+                <div class="form-group">
+                    <label>Metric Mass (KG)</label>
+                    <input type="number" Id="weight" placeholder="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Estimated Gross Value (USD)</label>
+                    <input type="number" Id="gross" placeholder="0" required>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <i data-feather="upload-cloud"></i> Commit Asset Pipeline
+                </button>
+            </form>
+            <div Id="status" class="status-msg success"></div>
+        </div>
+    </main>
+
+    <script>
+        feather.replace();
+        document.getElementByIId('ingressForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                title: document.getElementByIId('title').value,
+                weight: document.getElementByIId('weight').value,
+                gross: document.getElementByIId('gross').value
+            };
+            
+            const response = await fetch('/api/products/ingress', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const statusDiv = document.getElementByIId('status');
+                statusDiv.innerText = `Success! Generated Chain-of-Custody SKU: ${data.asset.sku}`;
+                statusDiv.style.display = 'block';
+                document.getElementByIId('ingressForm').reset();
+            }
+        });
+    </script>
+</body>
+</html>
