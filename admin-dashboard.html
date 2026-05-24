@@ -222,3 +222,15 @@
     </script>
 </body>
 </html>
+<script>
+  // This tells the dashboard to go to the server and get the data
+  fetch('/api/manifests')
+    .then(response => response.json())
+    .then(data => {
+      console.log("Data received:", data);
+      // Example: Update an element with the status
+      document.getElementById('status-field').innerText = data[0].status;
+    })
+    .catch(error => console.error('Error fetching data:', error));
+</script>
+
