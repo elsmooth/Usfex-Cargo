@@ -233,4 +233,25 @@
     })
     .catch(error => console.error('Error fetching data:', error));
 </script>
+    fetch('/api/manifests')
+        .then(response => response.json())
+        .then(data => {
+            console.log("Data received:", data);
+            // This line ensures the data actually appears in your dashboard table
+            // Ensure 'adminLedgerBody' is the ID of your table body
+            const tbody = document.getElementById('adminLedgerBody');
+            if(tbody) {
+                tbody.innerHTML = data.map(item => `
+                    <tr>
+                        <td>${item.id}</td>
+                        <td>${item.description}</td>
+                        <td>${item.mass}</td>
+                        <td>${item.cat}</td>
+                        <td>${item.status}</td>
+                    </tr>
+                `).join('');
+            }
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
 
